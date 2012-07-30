@@ -1,0 +1,7 @@
+A shared C++ library to read and write wasteland files.
+
+This lib is far from finished and is currently mostly a training project for 
+me to learn C++. If you are searching for a working library (Written in C 
+instead of C++) then you might be interested in my wlsuite project:
+
+https://github.com/kayahr/wlsuite
