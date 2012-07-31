@@ -1,4 +1,4 @@
-doc
+doc/html
 src/.libs
 src/.deps
 src/Makefile
@@ -15,6 +15,15 @@ test/*.o
 test/*.lo
 test/*.la
 test/test_libwasteland
+examples/.libs
+examples/.deps
+examples/Makefile
+examples/Makefile.in
+examples/*.o
+examples/*.lo
+examples/*.la
+examples/invert_sprites
+examples/invert_title_pic
 Makefile
 Makefile.in
 aclocal.m4
@@ -36,3 +45,4 @@ stamp-h1
 autom4te.cache
 .cproject
 .project
+*.tar.gz

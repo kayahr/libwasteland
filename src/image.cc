@@ -3,28 +3,38 @@
  * See COPYING file for copying conditions
  */
 
+#include <cstring>
 #include "image.h"
-
-using std::istream;
 
 namespace wasteland
 {
 
 /**
- * Constructor.
+ * Constructs a new image with the specified size.
  *
  * @param width
  *            The image width.
  * @param height
  *            The image height.
- * @param transparent
- *            If image can have transparent pixels. Defaults to false.
  */
-image::image(const int width, const int height, const bool transparent) :
-    width_(width), height_(height), dummy_(0)
+image::image(const int width, const int height) :
+    width(width), height(height)
 {
-	pixels_ = new color[width * height];
-	transparency_ = transparent ? -1 : 0;
+	data = new char[height * width / 2];
+}
+
+/**
+ * Copy constructor.
+ *
+ * @param image
+ *            The image to copy from.
+ */
+image::image(const image &image) :
+    width(image.width), height(image.height)
+{
+    int size = height * width / 2;
+    data = new char[size];
+    memcpy(data, image.data, size);
 }
 
 /**
@@ -32,7 +42,21 @@ image::image(const int width, const int height, const bool transparent) :
  */
 image::~image()
 {
-	delete[] pixels_;
+	delete[] data;
+}
+
+/**
+ * Assignment operator.
+ */
+image& image::operator=(const image &image)
+{
+    delete[] data;
+    width = image.width;
+    height = image.height;
+    int size = height * width / 2;
+    data = new char[size];
+    memcpy(data, image.data, size);
+    return *this;
 }
 
 /**
@@ -40,9 +64,9 @@ image::~image()
  *
  * @return The image width.
  */
-int image::width() const
+int image::get_width() const
 {
-	return width_;
+	return width;
 }
 
 /**
@@ -50,42 +74,50 @@ int image::width() const
  *
  * @return The image height.
  */
-int image::height() const
+int image::get_height() const
 {
-	return height_;
+	return height;
 }
 
 /**
- * Returns a read-only reference to the color at the specified position of the
- * image.
+ * Returns the color at the specified position of the image. If the specified
+ * position is outside of the image then 0 (black) is returned.
  *
  * @param x
  *            The X position in the image.
  * @param y
  *            The Y position in the image.
- * @return The reference to the color.
+ * @return The color.
  */
-const image::color& image::operator()(const int x, const int y) const
+image::color image::get_color(const int x, const int y) const
 {
-	if (y < 0 || x < 0 || x >= width_ || y >= height_)
-		return transparency_;
-	return pixels_[width_ * y + x];
+	if (y < 0 || x < 0 || x >= width || y >= height) return 0;
+	int index = (width * y + x) / 2;
+	if (x & 1)
+	    return (data[index] & 0xf0) >> 4;
+	else
+	    return data[index] & 0xf;
 }
 
 /**
- * Returns a reference to the color at the specified position of the image.
+ * Sets the color at the specified position of the image. If the specified
+ * position is outside of the image then this method does nothing.
  *
  * @param x
  *            The X position in the image.
  * @param y
  *            The Y position in the image.
- * @return The reference to the color.
+ * @param color
+ *            The color to set. Only the first 4 bit of the value is used.
  */
-image::color& image::operator()(const int x, const int y)
+void image::set_color(const int x, const int y, const image::color color)
 {
-	if (y < 0 || x < 0 || x >= width_ || y >= height_)
-		return dummy_ = transparency_;
-	return pixels_[width_ * y + x];
+    if (y < 0 || x < 0 || x >= width || y >= height) return;
+    int index = (width * y + x) / 2;
+    if (x & 1)
+        data[index] = (data[index] & 0xf) | ((color & 0xf) << 4);
+    else
+        data[index] = (data[index] & 0xf0) | (color & 0xf);
 }
 
 }
