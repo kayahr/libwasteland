@@ -4,7 +4,10 @@
  */
 
 #include <cstring>
+#include <stdexcept>
 #include "image.h"
+
+using std::invalid_argument;
 
 namespace wasteland
 {
@@ -17,10 +20,15 @@ namespace wasteland
  * @param height
  *            The image height.
  */
-image::image(const int width, const int height) :
-    width(width), height(height)
+image::image(const int width, const int height)
 {
-	data = new char[height * width / 2];
+    if (width < 1 || height < 1)
+        throw invalid_argument("width and height must be > 0");
+    this->width = width;
+    this->height = height;
+    int size = get_data_size(width, height);
+	data = new char[size];
+	memset(data, 0, size);
 }
 
 /**
@@ -32,7 +40,7 @@ image::image(const int width, const int height) :
 image::image(const image &image) :
     width(image.width), height(image.height)
 {
-    int size = height * width / 2;
+    int size = get_data_size(width, height);
     data = new char[size];
     memcpy(data, image.data, size);
 }
@@ -53,10 +61,41 @@ image& image::operator=(const image &image)
     delete[] data;
     width = image.width;
     height = image.height;
-    int size = height * width / 2;
+    int size = get_data_size(width, height);
     data = new char[size];
     memcpy(data, image.data, size);
     return *this;
+}
+
+/**
+ * Calculates and returns the data size for the specified image size.
+ *
+ * @param width
+ *            The image width.
+ * @param height
+ *            The image height.
+ * @return The data size.
+ */
+int image::get_data_size(const int width, const int height) const
+{
+    int data_width = width / 2 + ((width % 2) ? 1 : 0);
+    return data_width * height;
+}
+
+/**
+ * Calculates and returns the index in the data for the specified image
+ * position.
+ *
+ * @param x
+ *            The X position in the image.
+ * @param y
+ *            The Y position in the image.
+ * @return THe index.
+ */
+int image::get_data_index(const int x, const int y) const
+{
+    int data_width = width / 2 + ((width % 2) ? 1 : 0);
+    return data_width * y + x / 2;
 }
 
 /**
@@ -92,7 +131,7 @@ int image::get_height() const
 image::color image::get_color(const int x, const int y) const
 {
 	if (y < 0 || x < 0 || x >= width || y >= height) return 0;
-	int index = (width * y + x) / 2;
+	int index = get_data_index(x, y);
 	if (x & 1)
 	    return (data[index] & 0xf0) >> 4;
 	else
@@ -113,7 +152,7 @@ image::color image::get_color(const int x, const int y) const
 void image::set_color(const int x, const int y, const image::color color)
 {
     if (y < 0 || x < 0 || x >= width || y >= height) return;
-    int index = (width * y + x) / 2;
+    int index = get_data_index(x, y);
     if (x & 1)
         data[index] = (data[index] & 0xf) | ((color & 0xf) << 4);
     else

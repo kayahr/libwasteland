@@ -38,6 +38,10 @@ protected:
 
     /** The image pixel data. Each byte represents two 4-bit pixels. */
     char* data;
+
+private:
+    int get_data_size(const int width, const int height) const;
+    int get_data_index(const int x, const int y) const;
 };
 
 }
