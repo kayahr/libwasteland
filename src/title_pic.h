@@ -45,7 +45,7 @@ namespace wasteland
 class title_pic : public vxor_image
 {
 public:
-	title_pic();
+    title_pic();
 };
 
 }

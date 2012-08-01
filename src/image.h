@@ -18,7 +18,7 @@ class image
 {
 public:
     /** Type representing a single 4 bit color with valid values 0 - 15. */
-	typedef char color;
+    typedef char color;
 
     image(const int width, const int height);
     image(const image& image);

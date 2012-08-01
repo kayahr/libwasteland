@@ -27,8 +27,8 @@ image::image(const int width, const int height)
     this->width = width;
     this->height = height;
     int size = get_data_size(width, height);
-	data = new char[size];
-	memset(data, 0, size);
+    data = new char[size];
+    memset(data, 0, size);
 }
 
 /**
@@ -50,7 +50,7 @@ image::image(const image &image) :
  */
 image::~image()
 {
-	delete[] data;
+    delete[] data;
 }
 
 /**
@@ -105,7 +105,7 @@ int image::get_data_index(const int x, const int y) const
  */
 int image::get_width() const
 {
-	return width;
+    return width;
 }
 
 /**
@@ -115,7 +115,7 @@ int image::get_width() const
  */
 int image::get_height() const
 {
-	return height;
+    return height;
 }
 
 /**
@@ -130,12 +130,12 @@ int image::get_height() const
  */
 image::color image::get_color(const int x, const int y) const
 {
-	if (y < 0 || x < 0 || x >= width || y >= height) return 0;
-	int index = get_data_index(x, y);
-	if (x & 1)
-	    return (data[index] & 0xf0) >> 4;
-	else
-	    return data[index] & 0xf;
+    if (y < 0 || x < 0 || x >= width || y >= height) return 0;
+    int index = get_data_index(x, y);
+    if (x & 1)
+        return (data[index] & 0xf0) >> 4;
+    else
+        return data[index] & 0xf;
 }
 
 /**

@@ -14,14 +14,14 @@ namespace wasteland
 
 class bit_reader_test: public CPPUNIT_NS::TestFixture
 {
-	CPPUNIT_TEST_SUITE(bit_reader_test);
-	CPPUNIT_TEST(test_read_bit);
-	CPPUNIT_TEST(test_read_bits);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(bit_reader_test);
+    CPPUNIT_TEST(test_read_bit);
+    CPPUNIT_TEST(test_read_bits);
+    CPPUNIT_TEST_SUITE_END();
 
 protected:
-	void test_read_bit();
-	void test_read_bits();
+    void test_read_bit();
+    void test_read_bits();
 };
 
 }

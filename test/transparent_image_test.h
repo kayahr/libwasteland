@@ -14,22 +14,22 @@ namespace wasteland
 
 class transparent_image_test: public CPPUNIT_NS::TestFixture
 {
-	CPPUNIT_TEST_SUITE(transparent_image_test);
+    CPPUNIT_TEST_SUITE(transparent_image_test);
     CPPUNIT_TEST(test_constructor);
     CPPUNIT_TEST(test_copy_constructor);
     CPPUNIT_TEST(test_assignment_operator);
-	CPPUNIT_TEST(test_get_width);
+    CPPUNIT_TEST(test_get_width);
     CPPUNIT_TEST(test_get_height);
     CPPUNIT_TEST(test_get_set_color);
     CPPUNIT_TEST(test_get_set_transparent);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE_END();
 
 protected:
     void test_constructor();
     void test_copy_constructor();
     void test_assignment_operator();
-	void test_get_width();
-	void test_get_height();
+    void test_get_width();
+    void test_get_height();
     void test_get_set_color();
     void test_get_set_transparent();
 };
