@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     {
         for (int x = 0; x < pic.get_width(); x += 1)
         {
-            image::color c = pic.get_color(x, y);
+            title_pic::color c = pic.get_color(x, y);
             pic.set_color(x, y, c ^ 15);
         }
     }

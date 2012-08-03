@@ -7,4 +7,5 @@ test_libwasteland_SOURCES = \
 	bit_reader_test.cc \
 	image_test.cc \
 	transparent_image_test.cc \
+	title_pic_test.cc \
 	test_libwasteland.cc

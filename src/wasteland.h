@@ -11,12 +11,16 @@
  *
  * <ul>
  *   <li>
- *     Reading and writing the title picture (title.pic). 
+ *     Reading and writing the title picture (<code>title.pic</code>).
  *     See {@link wasteland::title_pic title_pic} class.
  *   </li>
  *   <li>
- *     Reading and writing the sprites (ic0_9.wlf and masks.wlf).
- *     See {@link wasteland::sprite sprite} class.
+ *     Reading and writing the sprites (<code>ic0_9.wlf</code> and
+ *     <code>masks.wlf</code>). See {@link wasteland::sprite sprite} class.
+ *   </li>
+ *   <li>
+ *     Reading and writing the font characters (<code>colorf.fnt</code>).
+ *     See {@link wasteland::font_char font_char} class.
  *   </li>
  * </ul>
  */

@@ -28,7 +28,6 @@ protected:
     /** The opacity information of the image. */
     char *transparency;
 
-private:
     int get_transparency_size(const int width, const int height) const;
     int get_transparency_index(const int x, const int y) const;
 };

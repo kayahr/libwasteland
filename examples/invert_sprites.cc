@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
         {
             for (int x = 0; x < s->get_width(); x += 1)
             {
-                image::color c = s->get_color(x, y);
+                sprite::color c = s->get_color(x, y);
                 s->set_color(x, y, c ^ 15);
             }
         }

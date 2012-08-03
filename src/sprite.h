@@ -6,7 +6,7 @@
 #ifndef LIBWASTELAND_SPRITE_H
 #define LIBWASTELAND_SPRITE_H
 
-#include "transparent_image.h"
+#include "base_transparent_image.h"
 #include "sprite_istreams.h"
 #include "sprite_ostreams.h"
 
@@ -61,17 +61,39 @@ namespace wasteland
  * out << img;
  * @endcode
  */
-class sprite: public transparent_image
+class sprite: public base_transparent_image
 {
-    friend sprite_istreams& operator>>(sprite_istreams&, sprite&);
-    friend sprite_ostreams& operator<<(sprite_ostreams&, const sprite&);
+    /**
+     * Reads a sprite from the specified streams.
+     *
+     * @return The sprite streams.
+     */
+    friend sprite_istreams& operator>>(sprite_istreams& streams,
+        sprite& sprite);
+
+    /**
+     * Writes the sprite to the specified streams.
+     *
+     * @return The sprite output streams.
+     */
+    friend sprite_ostreams& operator<<(sprite_ostreams& streams,
+        const sprite& sprite);
 
 public:
     sprite();
-};
+    virtual ~sprite();
+    virtual size get_width() const;
+    virtual size get_height() const;
+    virtual color get_color(const coord x, const coord y) const;
+    virtual void set_color(const coord x, const coord y, const color color);
+    virtual bool is_transparent(const coord x, const coord y) const;
+    virtual void set_transparent(const coord x, const coord y,
+        const bool transparent = true);
 
-sprite_istreams& operator>>(sprite_istreams& streams, sprite& sprite);
-sprite_ostreams& operator<<(sprite_ostreams& streams, const sprite& sprite);
+private:
+    char *data;
+    char *transparency;
+};
 
 }
 

@@ -8,83 +8,79 @@
 namespace wasteland
 {
 
-/**
- * Constructs a new Wasteland sprite image with a fixed size of 16x16 pixels.
- */
-sprite::sprite() :
-    transparent_image(16, 16)
+sprite::sprite()
 {
+    data = new char[128];
+    transparency = new char[32];
 }
 
-/**
- * Reads a sprite from the specified streams.
- *
- * @return The sprite streams.
- */
+sprite::~sprite()
+{
+    delete[] data;
+    delete[] transparency;
+}
+
+sprite::size sprite::get_width() const
+{
+    return 16;
+}
+
+sprite::size sprite::get_height() const
+{
+    return 16;
+}
+
+sprite::color sprite::get_color(const coord x, const coord y) const
+{
+    if (x >= 16 || y >= 16) return 0;
+
+    int index = (y << 1) + (x >> 3);
+    int b = 7 - (x & 7);
+    return ((data[index] >> b) & 1) // Blue
+        | (((data[index + 32] >> b) & 1) << 1) // Green
+        | (((data[index + 64] >> b) & 1) << 2) // Red
+        | (((data[index + 96] >> b) & 1) << 3) // Intensity
+        ;
+}
+
+void sprite::set_color(const coord x, const coord y, const color color)
+{
+    if (x >= 16 || y >= 16) return;
+
+    int i = (y << 2) + 3 - (x >> 3);
+    int b = 1 << (7 - (x & 7));
+    if (color & 1) data[i] |= b; else data[i] &= ~b;             // Blue
+    if (color & 2) data[i + 64] |= b; else data[i + 64] &= ~b;   // Green
+    if (color & 4) data[i + 128] |= b; else data[i + 128] &= ~b; // Red
+    if (color & 8) data[i + 192] |= b; else data[i + 192] &= ~b; // Intensity
+}
+
+bool sprite::is_transparent(const coord x, const coord y) const
+{
+    if (x >= 16 || y >= 16) return true;
+
+    int index = (y << 1) + (x >> 3);
+    int b = 7 - (x & 7);
+    return (transparency[index] >> b) & 1;
+}
+
+void sprite::set_transparent(const coord x, const coord y,
+    const bool transparent)
+{
+    if (x >= 16 || y >= 16) return;
+}
+
 sprite_istreams& operator>>(sprite_istreams& streams, sprite& sprite)
 {
-    int width = sprite.width;
-    int height = sprite.height;
-
-    for (int i = width * height / 2 - 1; i >= 0; i -= 1)
-        sprite.data[i] = 0;
-
-    for (int bit = 0; bit != 4; bit += 1)
-    {
-        for (int y = 0; y != height; y += 1)
-        {
-            for (int x = 0; x != width; x += 8)
-            {
-                int byte = streams.color().get();
-                for (int pixel = 0; pixel != 8; pixel += 1)
-                {
-                    int value = ((byte >> (7 - pixel)) & 1) << bit;
-                    int index = (y * width + x + pixel) / 2;
-                    if (pixel & 1)
-                        sprite.data[index] |= value << 4;
-                    else
-                        sprite.data[index] |= value;
-                }
-            }
-        }
-    }
-    streams.opacity().read(sprite.transparency, width * height / 8);
+    streams.color().read(sprite.data, 128);
+    streams.opacity().read(sprite.transparency, 32);
     return streams;
 }
 
-/**
- * Writes the sprite to the specified streams.
- *
- * @return The sprite output streams.
- */
 sprite_ostreams& operator<<(sprite_ostreams& streams, const sprite& sprite)
 {
-    int width = sprite.width;
-    int height = sprite.height;
-
-    for (int bit = 0; bit != 4; bit += 1)
-    {
-        for (int y = 0; y != height; y += 1)
-        {
-            for (int x = 0; x != width; x += 8)
-            {
-                int byte = 0;
-                for (int pixel = 0; pixel != 8; pixel += 1)
-                {
-                    int index = (y * width + x + pixel) / 2;
-                    int value = sprite.data[index];
-                    if (pixel & 1)
-                        value >>= 4;
-                    else
-                        value &= 0xf;
-                    value = ((value >> bit) & 1) << (7 - pixel);
-                    byte |= value;
-                }
-                streams.color().put(byte);
-            }
-        }
-    }
-    streams.opacity().write(sprite.transparency, width * height / 8);
+    streams.color().write(sprite.data, 128);
+    streams.opacity().write(sprite.transparency, 32);
     return streams;
 }
 

@@ -6,7 +6,8 @@
 #ifndef LIBWASTELAND_TITLE_PIC_H
 #define LIBWASTELAND_TITLE_PIC_H
 
-#include "vxor_image.h"
+#include <iostream>
+#include "base_image.h"
 
 namespace wasteland
 {
@@ -15,7 +16,7 @@ namespace wasteland
  * Container for the title picture of Wasteland (title.pic file).
  *
  * The title picture of Wasteland is a vertical-xor encoded image with a
- * fixed size of 288x128 which supports no transparency.
+ * size of 288x128 which supports no transparency.
  *
  * To read the title picture simply create an instance of this class and then
  * stream the file into it:
@@ -42,10 +43,36 @@ namespace wasteland
  * out << pic;
  * @endcode
  */
-class title_pic : public vxor_image
+class title_pic: public base_image
 {
+    /**
+     * Reads the title image from the specified input stream.
+     *
+     * @return The input stream.
+     */
+    friend std::istream& operator>>(std::istream&, title_pic&);
+
+    /**
+     * Writes the title image to the specified output stream.
+     *
+     * @return The output streams.
+     */
+    friend std::ostream& operator<<(std::ostream&, const title_pic&);
+
 public:
     title_pic();
+    title_pic(const title_pic& pic);
+    virtual ~title_pic();
+    virtual title_pic& operator=(const title_pic& pic);
+    virtual bool operator==(const title_pic& pic) const;
+    virtual bool operator!=(const title_pic& pic) const;
+    virtual size get_width() const;
+    virtual size get_height() const;
+    virtual color get_color(const coord x, const coord y) const;
+    virtual void set_color(const coord x, const coord y, const color color);
+
+private:
+    char *data;
 };
 
 }
