@@ -6,7 +6,7 @@
 #ifndef LIBWASTELAND_SPRITE_H
 #define LIBWASTELAND_SPRITE_H
 
-#include "base_transparent_image.h"
+#include "transparent_image.h"
 #include "sprite_istreams.h"
 #include "sprite_ostreams.h"
 
@@ -61,7 +61,7 @@ namespace wasteland
  * out << img;
  * @endcode
  */
-class sprite: public base_transparent_image
+class sprite: public transparent_image
 {
     /**
      * Reads a sprite from the specified streams.
@@ -80,15 +80,59 @@ class sprite: public base_transparent_image
         const sprite& sprite);
 
 public:
+    /**
+     * Constructs a new empty sprite. All colors are set to black and all
+     * transparency flags are set to opaque.
+     */
     sprite();
+
+    /**
+     * Constructs a new sprite initialized with the image data from the
+     * specified sprite.
+     *
+     * @param other
+     *            The sprite to copy the image data from.
+     */
+    sprite(const sprite &other);
+
+    /**
+     * Destructs this sprite.
+     */
     virtual ~sprite();
+
+    /**
+     * Copies the image data of the given sprite to this sprite.
+     *
+     * @param other
+     *            The sprite to copy the image data from.
+     */
+    virtual sprite& operator=(const sprite& other);
+
+    /**
+     * Compares this sprite with the given sprite.
+     *
+     * @param other
+     *            The other sprite to compare this one with.
+     * @return True if sprites are equal, false if not.
+     */
+    virtual bool operator==(const sprite& other) const;
+
+    /**
+     * Compares this sprite with the given sprite.
+     *
+     * @param other
+     *            The other sprite to compare this one with.
+     * @return False if sprites are equal, true if not.
+     */
+    virtual bool operator!=(const sprite& other) const;
+
     virtual size get_width() const;
     virtual size get_height() const;
     virtual color get_color(const coord x, const coord y) const;
     virtual void set_color(const coord x, const coord y, const color color);
     virtual bool is_transparent(const coord x, const coord y) const;
-    virtual void set_transparent(const coord x, const coord y,
-        const bool transparent = true);
+    virtual void set_transparent(const image::coord x,
+        const image::coord y, const bool transparent = true);
 
 private:
     char *data;
@@ -96,11 +140,5 @@ private:
 };
 
 }
-
-/**
- * @example invert_sprites.cc
- * This example shows how to read the Wasteland sprites, invert all pixels and
- * write the new sprites back to some other files.
- */
 
 #endif

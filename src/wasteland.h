@@ -19,6 +19,10 @@
  *     <code>masks.wlf</code>). See {@link wasteland::sprite sprite} class.
  *   </li>
  *   <li>
+ *     Reading and writing the mouse cursors (<code>curs</code>).
+ *     See {@link wasteland::cursor} class.
+ *   </li>
+ *   <li>
  *     Reading and writing the font characters (<code>colorf.fnt</code>).
  *     See {@link wasteland::font_char font_char} class.
  *   </li>

@@ -5,7 +5,8 @@ test_libwasteland_LDADD = ../src/libwasteland.la
 test_libwasteland_LDFLAGS = $(CPPUNIT_LIBS)
 test_libwasteland_SOURCES = \
 	bit_reader_test.cc \
-	image_test.cc \
-	transparent_image_test.cc \
 	title_pic_test.cc \
+	sprite_test.cc \
+	cursor_test.cc \
+	font_char_test.cc \
 	test_libwasteland.cc

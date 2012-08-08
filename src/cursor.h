@@ -7,7 +7,7 @@
 #define LIBWASTELAND_CURSOR_H
 
 #include <iostream>
-#include "base_transparent_image.h"
+#include "transparent_image.h"
 
 namespace wasteland
 {
@@ -45,7 +45,7 @@ namespace wasteland
  * out << img;
  * @endcode
  */
-class cursor: public base_transparent_image
+class cursor: public transparent_image
 {
     /**
      * Reads a mouse cursor from the specified input stream.
@@ -70,15 +70,51 @@ public:
      */
     typedef uint8_t opacity;
 
+    /**
+     * Constructs a new empty mouse cursor. All colors are set to black and
+     * all transparency flags are set to opaque.
+     */
     cursor();
+
+    /**
+     * Constructs a new mouse cursor initialized with the image data from the
+     * specified mouse cursor.
+     *
+     * @param other
+     *            The mouse cursor to copy the image data from.
+     */
+    cursor(const cursor &other);
+
+    /**
+     * Destructs this mouse cursor.
+     */
     virtual ~cursor();
-    virtual size get_width() const;
-    virtual size get_height() const;
-    virtual color get_color(const coord x, const coord y) const;
-    virtual void set_color(const coord x, const coord y, const color color);
-    virtual bool is_transparent(const coord x, const coord y) const;
-    virtual void set_transparent(const coord x, const coord y,
-        const bool transparent = true);
+
+    /**
+     * Copies the image data of the given mouse cursor to this one.
+     *
+     * @param other
+     *            The mouse cursor to copy the image data from.
+     */
+    virtual cursor& operator=(const cursor& other);
+
+    /**
+     * Compares this mouse cursor with the given mouse cursor.
+     *
+     * @param other
+     *            The other mouse cursor to compare this one with.
+     * @return True if mouse cursors are equal, false if not.
+     */
+    virtual bool operator==(const cursor& other) const;
+
+    /**
+     * Compares this mouse cursor with the given mouse cursor.
+     *
+     * @param other
+     *            The other mouse cursor to compare this one with.
+     * @return False if mouse cursors are equal, true if not.
+     */
+     virtual bool operator!=(const cursor& other) const;
 
     /**
      * Returns the opacity mask of the pixel at the specified position.
@@ -117,16 +153,18 @@ public:
      */
     void set_opacity(const coord x, const coord y, const opacity opacity);
 
+    virtual size get_width() const;
+    virtual size get_height() const;
+    virtual color get_color(const coord x, const coord y) const;
+    virtual void set_color(const coord x, const coord y, const color color);
+    virtual bool is_transparent(const coord x, const coord y) const;
+    virtual void set_transparent(const coord x, const coord y,
+        const bool transparent = true);
+
 private:
     char *data;
 };
 
 }
-
-/**
- * @example invert_cursors.cc
- * This example shows how to read the Wasteland cursors, invert all
- * pixels and write the new cursors to a file.
- */
 
 #endif

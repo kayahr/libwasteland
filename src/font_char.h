@@ -7,7 +7,7 @@
 #define LIBWASTELAND_FONT_CHAR_H
 
 #include <iostream>
-#include "base_image.h"
+#include "image.h"
 
 namespace wasteland
 {
@@ -48,7 +48,7 @@ namespace wasteland
  * out << img;
  * @endcode
  */
-class font_char: public base_image
+class font_char: public image
 {
     /**
      * Reads a font character image from the specified input stream.
@@ -65,8 +65,51 @@ class font_char: public base_image
     friend std::ostream& operator<<(std::ostream&, const font_char&);
 
 public:
+    /**
+     * Constructs a new empty fpnt character. All colors are set to black.
+     */
     font_char();
+
+    /**
+     * Constructs a new font character initialized with the image data from
+     * the specified font character.
+     *
+     * @param other
+     *            The font character to copy the image data from.
+     */
+    font_char(const font_char& other);
+
+    /**
+     * Destructs this font character.
+     */
     virtual ~font_char();
+
+    /**
+     * Copies the image data of the given sprite to this sprite.
+     *
+     * @param other
+     *            The font character to copy the image data from.
+     */
+    virtual font_char& operator=(const font_char& other);
+
+    /**
+     * Compares this font character with the given font character.
+     *
+     * @param other
+     *            The other font character to compare this one with.
+     * @return True if font characters are equal, false if not.
+     */
+    virtual bool operator==(const font_char& other) const;
+
+    /**
+     * Compares this font character with the given font character.
+     *
+     * @param other
+     *            The other font character to compare this one with.
+     * @return  False if font characters are equal, true if not.
+     */
+    virtual bool operator!=(const font_char& other) const;
+
     virtual size get_width() const;
     virtual size get_height() const;
     virtual color get_color(const coord x, const coord y) const;
@@ -77,11 +120,5 @@ private:
 };
 
 }
-
-/**
- * @example invert_font.cc
- * This example shows how to read the Wasteland font characters, invert all
- * pixels and write the new font characters to a file.
- */
 
 #endif

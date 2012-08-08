@@ -7,7 +7,7 @@
 #define LIBWASTELAND_TITLE_PIC_H
 
 #include <iostream>
-#include "base_image.h"
+#include "image.h"
 
 namespace wasteland
 {
@@ -43,7 +43,7 @@ namespace wasteland
  * out << pic;
  * @endcode
  */
-class title_pic: public base_image
+class title_pic: public image
 {
     /**
      * Reads the title image from the specified input stream.
@@ -60,12 +60,51 @@ class title_pic: public base_image
     friend std::ostream& operator<<(std::ostream&, const title_pic&);
 
 public:
+    /**
+     * Constructs a new empty title picture. All colors are set to black.
+     */
     title_pic();
-    title_pic(const title_pic& pic);
+
+    /**
+     * Constructs a new title picture initialized with the image data from
+     * the specified title picture.
+     *
+     * @param other
+     *            The picture to copy the image data from.
+     */
+    title_pic(const title_pic& other);
+
+    /**
+     * Destructs this title picture.
+     */
     virtual ~title_pic();
-    virtual title_pic& operator=(const title_pic& pic);
-    virtual bool operator==(const title_pic& pic) const;
-    virtual bool operator!=(const title_pic& pic) const;
+
+    /**
+     * Copies the image data of the given sprite to this sprite.
+     *
+     * @param other
+     *            The picture to copy the image data from.
+     */
+    virtual title_pic& operator=(const title_pic& other);
+
+    /**
+     * Compares this title picture with the given title picture.
+     *
+     * @param other
+     *            The other title picture to compare this one with.
+     * @return True if title pictures are equal, false if not.
+     */
+    virtual bool operator==(const title_pic& other) const;
+
+    /**
+     * Compares this title picture with the given title picture.
+     *
+     * @param other
+     *            The other title picture to compare this one with.
+     * @return  False if title pictures are equal, true if not.
+     */
+    virtual bool operator!=(const title_pic& other) const;
+
     virtual size get_width() const;
     virtual size get_height() const;
     virtual color get_color(const coord x, const coord y) const;
@@ -76,11 +115,5 @@ private:
 };
 
 }
-
-/**
- * @example invert_title_pic.cc
- * This example shows how to read a title.pic file, invert all pixels and
- * write the new picure back to a different file.
- */
 
 #endif

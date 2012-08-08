@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_TRANSPARENT_IMAGE_H
-#define LIBWASTELAND_TRANSPARENT_IMAGE_H
+#ifndef LIBWASTELAND_transparent_image_H
+#define LIBWASTELAND_transparent_image_H
 
 #include "image.h"
 
@@ -12,24 +12,66 @@ namespace wasteland
 {
 
 /**
- * Base class for transparent images.
+ * Abstract base class for all transparent images.
  */
-class transparent_image: public image
+class transparent_image : public image
 {
 public:
-    transparent_image(const int width, const int height);
-    transparent_image(const transparent_image& image);
-    virtual ~transparent_image();
-    transparent_image& operator=(const transparent_image& image);
-    bool is_transparent(const int x, const int y) const;
-    void set_transparent(const int x, const int y, const bool opaque);
+    /**
+     * Checks if the pixel at the specified position is transparent or not. If
+     * the position is outside of the image then true (transparent) is
+     * returned.
+     *
+     * @param x
+     *            The X position of the pixel.
+     * @param y
+     *            The Y position of the pixel.
+     * @return True if pixel is transparent, false if not.
+     */
+    virtual bool is_transparent(const coord x, const coord y) const = 0;
 
-protected:
-    /** The opacity information of the image. */
-    char *transparency;
+    /**
+     * Enables or disables transparency of the pixel at the specified position.
+     * If the position is outside of the image then this method does nothing.
+     *
+     * @param x
+     *            The X position of the pixel.
+     * @param y
+     *            The Y position of the pixel.
+     * @param transparent
+     *            True to make the pixel transparent (Default), false to make
+     *            it opaque.
+     */
+    virtual void set_transparent(const coord x, const coord y,
+        const bool transparent = true) = 0;
 
-    int get_transparency_size(const int width, const int height) const;
-    int get_transparency_index(const int x, const int y) const;
+    /**
+     * Checks if the pixel at the specified position is opaque or not. If
+     * the position is outside of the image then false (transparent) is
+     * returned.
+     *
+     * @param x
+     *            The X position of the pixel.
+     * @param y
+     *            The Y position of the pixel.
+     * @return True if pixel is transparent, false if not.
+     */
+    virtual bool is_opaque(const coord x, const coord y) const;
+
+    /**
+     * Makes the pixel at the specified position opaque or transparent.
+     * If the position is outside of the image then this method does nothing.
+     *
+     * @param x
+     *            The X position of the pixel.
+     * @param y
+     *            The Y position of the pixel.
+     * @param opaque
+     *            True to make the pixel opaque (Default), false to make
+     *            it transparent.
+     */
+    virtual void set_opaque(const coord x, const coord y,
+        const bool opaque = true);
 };
 
 }

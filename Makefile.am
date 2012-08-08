@@ -1,3 +1,3 @@
-SUBDIRS = src test examples
+SUBDIRS = src test
 ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = doc/logo.png Doxyfile

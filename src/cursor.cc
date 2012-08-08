@@ -4,6 +4,7 @@
  */
 
 #include <iostream>
+#include <cstring>
 #include "cursor.h"
 
 using std::istream;
@@ -15,11 +16,40 @@ namespace wasteland
 cursor::cursor()
 {
     data = new char[256];
+    memset(data, 0, 256);
+
+    for (int y = 0; y != 16; y += 1)
+        for (int x = 0; x != 16; x += 1)
+            set_opaque(x, y);
+}
+
+cursor::cursor(const cursor &other)
+{
+    data = new char[256];
+    memcpy(data, other.data, 256);
 }
 
 cursor::~cursor()
 {
     delete[] data;
+}
+
+cursor& cursor::operator=(const cursor& pic)
+{
+    delete[] data;
+    data = new char[256];
+    memcpy(data, pic.data, 256);
+    return *this;
+}
+
+bool cursor::operator==(const cursor& pic) const
+{
+    return !memcmp(data, pic.data, 256);
+}
+
+bool cursor::operator!=(const cursor& pic) const
+{
+    return !(*this == pic);
 }
 
 cursor::size cursor::get_width() const

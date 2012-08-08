@@ -3,6 +3,8 @@
  * See COPYING file for copying conditions
  */
 
+#include <iostream>
+#include <cstring>
 #include "font_char.h"
 
 using std::istream;
@@ -14,11 +16,36 @@ namespace wasteland
 font_char::font_char()
 {
     data = new char[32];
+    memset(data, 0, 32);
+}
+
+font_char::font_char(const font_char &other)
+{
+    data = new char[32];
+    memcpy(data, other.data, 32);
 }
 
 font_char::~font_char()
 {
     delete[] data;
+}
+
+font_char& font_char::operator=(const font_char& pic)
+{
+    delete[] data;
+    data = new char[32];
+    memcpy(data, pic.data, 32);
+    return *this;
+}
+
+bool font_char::operator==(const font_char& pic) const
+{
+    return !memcmp(data, pic.data, 32);
+}
+
+bool font_char::operator!=(const font_char& pic) const
+{
+    return !(*this == pic);
 }
 
 font_char::size font_char::get_width() const

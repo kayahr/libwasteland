@@ -3,10 +3,10 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_IMAGE_H
-#define LIBWASTELAND_IMAGE_H
+#ifndef LIBWASTELAND_image_H
+#define LIBWASTELAND_image_H
 
-#include <istream>
+#include <stdint.h>
 
 namespace wasteland
 {
@@ -17,30 +17,56 @@ namespace wasteland
 class image
 {
 public:
-    /** Type representing a single 4 bit color with valid values 0 - 15. */
-    typedef char color;
+    /** Type for a color of a pixel in an image. This is a 4 bit CGA color .*/
+    typedef uint8_t color;
 
-    image(const int width, const int height);
-    image(const image& image);
-    image& operator=(const image& image);
-    virtual ~image();
-    int get_width() const;
-    int get_height() const;
-    color get_color(const int x, const int y) const;
-    void set_color(const int x, const int y, const color color);
+    /** Type for a coordinate (X or Y) in an image. */
+    typedef uint16_t coord;
 
-protected:
-    /** The width of the image. */
-    int width;
+    /** Type for the size (width or height) of an image. */
+    typedef uint16_t size;
 
-    /** The height of the image. */
-    int height;
+    virtual ~image() = 0;
 
-    /** The image pixel data. Each byte represents two 4-bit pixels. */
-    char* data;
+    /**
+     * Returns the width of the image.
+     *
+     * @return The width of the image.
+     */
+    virtual size get_width() const = 0;
 
-    int get_data_size(const int width, const int height) const;
-    int get_data_index(const int x, const int y) const;
+    /**
+     * Returns the height of the image.
+     *
+     * @return The height of the image.
+     */
+    virtual size get_height() const = 0;
+
+    /**
+     * Returns the color of the pixel at the specified position. If the
+     * position is outside of the image then 0 (black) is returned.
+     *
+     * @param x
+     *            The X position of the pixel.
+     * @param y
+     *            The Y position of the pixel.
+     * @return The color of the pixel at the specified position or 0 (black)
+     *         if position is outside of the image.
+     */
+    virtual color get_color(const coord x, const coord y) const = 0;
+
+    /**
+     * Sets the color of the pixel at the specified position. If the
+     * position is outside of the image then this method does nothing.
+     *
+     * @param x
+     *            The X position of the pixel.
+     * @param y
+     *            The Y position of the pixel.
+     * @param color
+     *            The color to set.
+     */
+    virtual void set_color(const coord x, const coord y, const color color) = 0;
 };
 
 }

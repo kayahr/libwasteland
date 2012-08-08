@@ -23,7 +23,7 @@ int main()
     sprite_istreams in(in1, in2);
 
     sprite c;
-    base_transparent_image *b = &c;
+    transparent_image *b = &c;
     while (in >> c)
     {
         for (int y = 0; y < b->get_height(); y++)

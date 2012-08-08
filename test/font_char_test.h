@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_TRANSPARENT_IMAGE_TEST_H
-#define LIBWASTELAND_TRANSPARENT_IMAGE_TEST_H
+#ifndef LIBWASTELAND_FONT_CHAR_TEST_H
+#define LIBWASTELAND_FONT_CHAR_TEST_H
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -12,16 +12,18 @@
 namespace wasteland
 {
 
-class transparent_image_test: public CPPUNIT_NS::TestFixture
+class font_char_test: public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE(transparent_image_test);
+    CPPUNIT_TEST_SUITE(font_char_test);
     CPPUNIT_TEST(test_constructor);
     CPPUNIT_TEST(test_copy_constructor);
     CPPUNIT_TEST(test_assignment_operator);
     CPPUNIT_TEST(test_get_width);
     CPPUNIT_TEST(test_get_height);
     CPPUNIT_TEST(test_get_set_color);
-    CPPUNIT_TEST(test_get_set_transparent);
+    CPPUNIT_TEST(test_equals);
+    CPPUNIT_TEST(test_read);
+    CPPUNIT_TEST(test_write);
     CPPUNIT_TEST_SUITE_END();
 
 protected:
@@ -31,7 +33,9 @@ protected:
     void test_get_width();
     void test_get_height();
     void test_get_set_color();
-    void test_get_set_transparent();
+    void test_equals();
+    void test_read();
+    void test_write();
 };
 
 }
