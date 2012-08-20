@@ -7,6 +7,7 @@
 #define LIBWASTELAND_CURSOR_H
 
 #include <iostream>
+#include <stdint.h>
 #include "transparent_image.h"
 
 namespace wasteland
