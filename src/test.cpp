@@ -12,41 +12,42 @@
 #include "title_pic.h"
 #include "transparent_image.h"
 #include "sprite.h"
+#include "huffman_reader.h"
+#include "huffman_writer.h"
+#include <errno.h>
 
 using namespace std;
 using namespace wasteland;
 
 int main()
 {
-    ifstream in1("/home/k/.dosemu/drive_c/wland/ic0_9.wlf");
-    ifstream in2("/home/k/.dosemu/drive_c/wland/masks.wlf");
-    sprite_istreams in(in1, in2);
+    string s;
 
-    sprite c;
-    transparent_image *b = &c;
-    while (in >> c)
-    {
-        for (int y = 0; y < b->get_height(); y++)
-        {
-            for (int x = 0; x < b->get_width(); x++)
-            {
-                if (b->is_opaque(x, y))
-                {
-                    cout << (char) (' ' + b->get_color(x, y));
-                    cout << (char) (' ' + b->get_color(x, y));
-                }
-                else
-                {
-                    cout << "__";
-                }
-            }
-            cout << endl;
-        }
+    ifstream in("/tmp/test");
+    in.exceptions( std::ios::failbit );
+    if (in == NULL) cout << "No stream" << endl;
+//    cout << "stream open. Press enter now" << endl;
+//    cin >> s;
+    bit_reader reader(in);
+    cout << (int) reader.read_bit() << endl;
+    cout << (int) reader.read_bit() << endl;
+    cout << (int) reader.read_bit() << endl;
+    cout << (int) reader.read_bit() << endl;
+    cout << (int) reader.read_bit() << endl;
+    cout << (int) reader.read_bit() << endl;
+    cout << (int) reader.read_bit() << endl;
+    cout << (int) reader.read_bit() << endl;
+    cout << (int) reader.read_bit() << endl;
 
-        cout << endl;
-        cout << "------------------------------" << endl;
-        cout << endl;
-    }
+    ofstream out("/tmp/huffman.out");
+    huffman_writer writer(out);
 
+    writer.write_byte('c');
+    writer.write_byte('a');
+    writer.write_byte('b');
+    writer.write_byte('a');
+    writer.write_byte('c');
+    writer.write_byte('a');
+    writer.flush();
     return 0;
 }

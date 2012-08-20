@@ -18,22 +18,22 @@ void bit_reader_test::test_read_bit()
     stringstream stream("wl");
     bit_reader reader(stream);
 
-    CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
-    CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
-    CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(0, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(0, reader.read_bit());
+    CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
+    CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
+    CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
 
     CPPUNIT_ASSERT_EQUAL(0, reader.read_bit());
-    CPPUNIT_ASSERT_EQUAL(0, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(0, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(1, reader.read_bit());
+    CPPUNIT_ASSERT_EQUAL(0, reader.read_bit());
     CPPUNIT_ASSERT_EQUAL(0, reader.read_bit());
 
     CPPUNIT_ASSERT_EQUAL(-1, reader.read_bit());
@@ -45,10 +45,19 @@ void bit_reader_test::test_read_bits()
     bit_reader reader(stream);
 
     CPPUNIT_ASSERT_EQUAL(0b0111, reader.read_bits(4));
-    CPPUNIT_ASSERT_EQUAL(0b11, reader.read_bits(2));
-    CPPUNIT_ASSERT_EQUAL(0b0001, reader.read_bits(4));
+    CPPUNIT_ASSERT_EQUAL(0b01, reader.read_bits(2));
+    CPPUNIT_ASSERT_EQUAL(0b1101, reader.read_bits(4));
     CPPUNIT_ASSERT_EQUAL(0b1011, reader.read_bits(4));
     CPPUNIT_ASSERT_EQUAL(-1, reader.read_bits(3));
+}
+
+void bit_reader_test::test_read_byte()
+{
+    stringstream stream("wl");
+    bit_reader reader(stream);
+
+    CPPUNIT_ASSERT_EQUAL('w', (char) reader.read_byte());
+    CPPUNIT_ASSERT_EQUAL('l', (char) reader.read_byte());
 }
 
 }

@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_BIT_READER_TEST_H
-#define LIBWASTELAND_BIT_READER_TEST_H
+#ifndef LIBWASTELAND_HUFFMAN_READER_TEST_H
+#define LIBWASTELAND_HUFFMAN_READER_TEST_H
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -12,18 +12,16 @@
 namespace wasteland
 {
 
-class bit_reader_test: public CPPUNIT_NS::TestFixture
+class huffman_reader_test: public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE(bit_reader_test);
-    CPPUNIT_TEST(test_read_bit);
-    CPPUNIT_TEST(test_read_bits);
+    CPPUNIT_TEST_SUITE(huffman_reader_test);
     CPPUNIT_TEST(test_read_byte);
+    CPPUNIT_TEST(test_read_word);
     CPPUNIT_TEST_SUITE_END();
 
 protected:
-    void test_read_bit();
-    void test_read_bits();
     void test_read_byte();
+    void test_read_word();
 };
 
 }

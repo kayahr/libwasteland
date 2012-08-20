@@ -3,60 +3,54 @@
  * See COPYING file for copying conditions
  */
 
+#include <assert.h>
 #include "bit_reader.h"
+#include "exceptions.h"
 
 using std::istream;
 
 namespace wasteland
 {
 
-/**
- * Constructor.
- *
- * @param stream
- *            The input stream to wrap.
- */
 bit_reader::bit_reader(istream &stream) :
-    stream(stream), index(7), value(0)
+    stream(stream),
+    mask(0),
+    buffer(0)
 {
+    assert(stream != NULL);
 }
 
-/**
- * Reads a single bit from the wrapped stream and returns it.
- *
- * @return The read bit or -1 when end of stream has been reached.
- */
 int bit_reader::read_bit()
 {
-    if (!stream) return -1;
+    if (!mask)
+    {
+        buffer = stream.get();
+        if (buffer == istream::traits_type::eof()) return buffer;
+        mask = 0x80;
+    }
+    unsigned char tmp = buffer & mask;
+    mask >>= 1;
+    return tmp ? 1 : 0;
 
-    // Read byte from wrapped stream if needed
-    if (index == 7) if (!(stream >> value)) return -1;
-
-    // Increment the bit index
-    index = (index + 1) % 8;
-
-    // Read bit at current index and return it
-    return (value >> index) & 1;
 }
 
-/**
- * Reads the specified number of bits from the wrapped stream and returns it.
- *
- * @param bits
- *            The number of bits to read.
- * @return The read bits. -1 if end of stream has been reached.
- */
 int bit_reader::read_bits(const int bits)
 {
+    assert(bits > 0 && bits <= 8);
+
     int value = 0;
     for (int i = 0; i != bits; ++i)
     {
         int bit = read_bit();
-        if (bit == -1) return -1;
-        value |= bit << i;
+        if (bit == istream::traits_type::eof()) return -1;
+        value = value << 1 | bit;
     }
     return value;
+}
+
+int bit_reader::read_byte()
+{
+    return read_bits(8);
 }
 
 }
