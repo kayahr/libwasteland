@@ -7,47 +7,57 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "title_pic.h"
 #include "sprite.h"
 #include "bit_reader.h"
-#include "title_pic.h"
 #include "transparent_image.h"
 #include "sprite.h"
 #include "huffman_reader.h"
 #include "huffman_writer.h"
 #include <errno.h>
+#include "tile.h"
 
 using namespace std;
 using namespace wasteland;
 
 int main()
 {
-    string s;
+    tile img;
+    ofstream out("/tmp/newallhtds1");
+    tile_writer writer(out);
 
-    ifstream in("/tmp/test");
-    in.exceptions( std::ios::failbit );
-    if (in == NULL) cout << "No stream" << endl;
-//    cout << "stream open. Press enter now" << endl;
-//    cin >> s;
-    bit_reader reader(in);
-    cout << (int) reader.read_bit() << endl;
-    cout << (int) reader.read_bit() << endl;
-    cout << (int) reader.read_bit() << endl;
-    cout << (int) reader.read_bit() << endl;
-    cout << (int) reader.read_bit() << endl;
-    cout << (int) reader.read_bit() << endl;
-    cout << (int) reader.read_bit() << endl;
-    cout << (int) reader.read_bit() << endl;
-    cout << (int) reader.read_bit() << endl;
+    ifstream in("/home/k/.dosemu/drive_c/wland/allhtds1");
+    //ifstream in("/tmp/newallhtds1");
+    tile_reader reader(in);
+    while(reader)
+    {
+        int tiles = reader.count_tiles();
+        int disk = reader.get_disk();
+        cout << "Tiles: " << tiles << endl;
+        for (int i = 0; i < tiles; i++)
+        {
+            cout << "Tile: " << reader.get_tile_no() << endl;
+            reader >> img;
+            writer << img;
+        }
+        writer.flush();
+    //
+    //    reader >> img;
+    //    reader >> img;
+    //    reader >> img;
+    //
+    //    for (int y = 0; y < 16; y++)
+    //    {
+    //        for (int x = 0; x < 16; x++)
+    //        {
+    //            cout << (char) (' ' + img.get_color(x, y));
+    //            cout << (char) (' ' + img.get_color(x, y));
+    //        }
+    //        cout << endl;
+    //    }
+    }
+    in.close();
+    out.close();
 
-    ofstream out("/tmp/huffman.out");
-    huffman_writer writer(out);
-
-    writer.write_byte('c');
-    writer.write_byte('a');
-    writer.write_byte('b');
-    writer.write_byte('a');
-    writer.write_byte('c');
-    writer.write_byte('a');
-    writer.flush();
     return 0;
 }

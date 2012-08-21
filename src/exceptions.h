@@ -17,6 +17,12 @@ namespace wasteland
 class error: public std::runtime_error
 {
 public:
+    /**
+     * Constructs a new error with the specified error message.
+     *
+     * @param message
+     *            The error message.
+     */
     explicit error(const std::string &message) : runtime_error(message) {};
 };
 
@@ -26,6 +32,12 @@ public:
 class io_error: public error
 {
 public:
+    /**
+     * Constructs a new I/O error with the specified error message.
+     *
+     * @param message
+     *            The error message.
+     */
     explicit io_error(const std::string &message) : error(message) {};
 };
 
@@ -35,17 +47,30 @@ public:
 class huffman_error: public io_error
 {
 public:
+    /**
+     * Constructs a new huffman error with the specified error message.
+     *
+     * @param message
+     *            The error message.
+     */
     explicit huffman_error(const std::string &message) : io_error(message) {};
 };
 
 /**
  * Error thrown when a huffman enoding/decoding error occurred.
  */
-class huffman_eos_error: public huffman_error
+class eos_error: public io_error
 {
 public:
-    explicit huffman_eos_error(const std::string &message
-        = "Unexpected end of stream") : huffman_error(message) {};
+    /**
+     * Constructs a new end-of-stream error with the specified error
+     * message.
+     *
+     * @param message
+     *            Optional error message. Defaults to a fixed message.
+     */
+    explicit eos_error(const std::string &message
+        = "Unexpected end of stream") : io_error(message) {};
 };
 
 }

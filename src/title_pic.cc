@@ -63,9 +63,9 @@ title_pic::color title_pic::get_color(const coord x, const coord y) const
 
     int index = y * 144 + (x >> 1);
     if (x & 1)
-        return (data[index] & 0xf0) >> 4;
-    else
         return data[index] & 0xf;
+    else
+        return (data[index] & 0xf0) >> 4;
 }
 
 void title_pic::set_color(const coord x, const coord y, const color color)
@@ -74,9 +74,9 @@ void title_pic::set_color(const coord x, const coord y, const color color)
 
     int index = y * 144 + (x >> 1);
     if (x & 1)
-        data[index] = (data[index] & 0xf) | ((color & 0xf) << 4);
-    else
         data[index] = (data[index] & 0xf0) | (color & 0xf);
+    else
+        data[index] = (data[index] & 0xf) | ((color & 0xf) << 4);
 }
 
 istream& operator>>(istream& stream, title_pic& pic)

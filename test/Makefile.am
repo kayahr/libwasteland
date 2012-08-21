@@ -12,4 +12,5 @@ test_libwasteland_SOURCES = \
 	sprite_test.cc \
 	cursor_test.cc \
 	font_char_test.cc \
+	tile_test.cc \
 	test_libwasteland.cc

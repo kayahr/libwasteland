@@ -12,7 +12,6 @@ namespace wasteland
 {
 
 huffman_node::huffman_node(const huffman_node &other):
-    parent(other.parent),
     left(other.left),
     right(other.right),
     payload(other.payload),
@@ -23,7 +22,6 @@ huffman_node::huffman_node(const huffman_node &other):
 }
 
 huffman_node::huffman_node(const uint8_t payload):
-    parent(NULL),
     left(NULL),
     right(NULL),
     payload(payload),
@@ -34,40 +32,34 @@ huffman_node::huffman_node(const uint8_t payload):
 }
 
 huffman_node::huffman_node(huffman_node *left, huffman_node *right):
-    parent(NULL),
     left(left),
     right(right),
     payload(0),
     usage(left->usage + right->usage)
 {
-    left->parent = this;
-    right->parent = this;
     set_key(0, 0);
 }
 
 huffman_node::huffman_node(bit_reader &reader) :
-    parent(NULL),
     key(0),
     key_bits(0)
 {
     uint8_t bit;
 
     // Read payload or sub nodes.
-    if ((bit = reader.read_bit()) == -1) throw huffman_eos_error();
+    if ((bit = reader.read_bit()) == -1) throw eos_error();
     if (bit)
     {
         left = NULL;
         right = NULL;
-        if ((payload = reader.read_byte()) == -1) throw huffman_eos_error();
+        if ((payload = reader.read_byte()) == -1) throw eos_error();
         usage = 0;
     }
     else
     {
         left = new huffman_node(reader);
-        left->parent = this;
-        if (reader.read_bit() == -1)  throw huffman_eos_error();
+        if (reader.read_bit() == -1)  throw eos_error();
         right = new huffman_node(reader);
-        right->parent = this;
         payload = 0;
         usage = 1;
     }
@@ -129,7 +121,7 @@ void huffman_node::set_key(const int key, const int key_bits)
     this->key_bits = key_bits;
 
     // Dive into sub nodes
-    if (left) left->set_key(key << 1, key_bits + 1);
+    if (right) left->set_key(key << 1, key_bits + 1);
     if (right) right->set_key((key << 1) | 1, key_bits + 1);
 }
 

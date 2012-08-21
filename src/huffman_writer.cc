@@ -62,6 +62,7 @@ void huffman_writer::reset()
     {
         delete *iterator;
     }
+    buffer.clear();
     nodes.clear();
     node_index.clear();
 }

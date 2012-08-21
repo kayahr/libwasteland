@@ -19,7 +19,10 @@ libwasteland_la_SOURCES = \
   title_pic.cc \
   sprite.cc \
   font_char.cc \
-  cursor.cc
+  cursor.cc \
+  tile_reader.cc \
+  tile_writer.cc \
+  tile.cc
 libwastelandincludedir = $(includedir)
 libwastelandinclude_HEADERS = \
   bit_reader.h \
@@ -34,5 +37,8 @@ libwastelandinclude_HEADERS = \
   title_pic.h \
   sprite.h \
   font_char.h \
-  cursor.h 
+  cursor.h \
+  tile_reader.h \
+  tile_writer.h \
+  tile.h
 AM_CFLAGS = -Wall -Werror -O2

@@ -12,12 +12,6 @@ using std::istream;
 namespace wasteland
 {
 
-/**
- * Constructor.
- *
- * @param stream
- *            The input stream to wrap.
- */
 huffman_reader::huffman_reader(istream &stream) : root(NULL)
 {
     reader = new bit_reader(stream);
@@ -55,6 +49,21 @@ int huffman_reader::read_word()
     int high = read_byte();
     if (high == -1) return -1;
     return high << 8 | low;
+}
+
+void huffman_reader::read(uint8_t *data, const int size)
+{
+    for (int i = 0; i != size; i += 1)
+    {
+        data[i] = read_byte();
+    }
+}
+
+void huffman_reader::reset()
+{
+    reader->reset();
+    if (root) delete root;
+    root = NULL;
 }
 
 }

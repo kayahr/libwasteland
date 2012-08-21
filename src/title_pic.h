@@ -80,7 +80,8 @@ public:
     virtual ~title_pic();
 
     /**
-     * Copies the image data of the given sprite to this sprite.
+     * Copies the image data of the given title picture to this title
+     * picture.
      *
      * @param other
      *            The picture to copy the image data from.

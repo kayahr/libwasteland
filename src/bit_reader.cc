@@ -53,4 +53,10 @@ int bit_reader::read_byte()
     return read_bits(8);
 }
 
+void bit_reader::reset()
+{
+    mask = 0;
+    buffer = 0;
+}
+
 }

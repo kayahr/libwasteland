@@ -51,6 +51,11 @@ public:
      */
     int read_byte();
 
+    /**
+     * Resets the reader so it can be re-used.
+     */
+    void reset();
+
 private:
     /** The wrapped input stream. */
     std::istream &stream;

@@ -18,7 +18,7 @@ namespace wasteland
 {
 
 /**
- * Reader for huffman input streams.
+ * Writer to write huffman-compressed data to an output stream.
  */
 class huffman_writer
 {
@@ -52,17 +52,45 @@ public:
      */
     void write_word(const uint16_t value);
 
+    /**
+     * Resets the writer so it can be re-used.
+     */
     void reset();
 
+    /**
+     * Writes the huffman tree and the compressed bytes to the output stream.
+     * and resets the writer so it can be re-used.
+     */
     void flush();
 
 private:
+    /** The buffer holding the uncompressed data to write. */
     std::vector<uint8_t> buffer;
+
+    /** The list of generated huffman nodes. */
     std::list<huffman_node *> nodes;
+
+    /** Index mapping a payload to a huffman node. */
     std::map<uint8_t, huffman_node *> node_index;
+
+    /** The bit writer used to write compressed data to the output stream. */
     bit_writer *writer;
 
+    /**
+     * Writes the specified huffman node to the output stream.
+     *
+     * @param node
+     *            The huffman node to write to the stream.
+     */
     void write_node(const huffman_node *node);
+
+    /**
+     * Compresses the specified byte and writes the compressed bits of it to
+     * the output stream.
+     *
+     * @param byte
+     *            The byte to compress and write to the output stream.
+     */
     void write_compressed_byte(const uint8_t byte);
 };
 
