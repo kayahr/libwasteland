@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_image_H
-#define LIBWASTELAND_image_H
+#ifndef LIBWASTELAND_IMAGE_H
+#define LIBWASTELAND_IMAGE_H
 
 #include <stdint.h>
 

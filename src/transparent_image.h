@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_transparent_image_H
-#define LIBWASTELAND_transparent_image_H
+#ifndef LIBWASTELAND_TRANSPARENT_IMAGE_H
+#define LIBWASTELAND_TRANSPARENT_IMAGE_H
 
 #include "image.h"
 
