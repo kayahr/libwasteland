@@ -1,6 +1,6 @@
 bin_PROGRAMS = test
 test_LDADD = libwasteland.la
-test_LDFLAGS = -all-static
+test_LDFLAGS = -static
 test_SOURCES = \
         test.cpp
 
@@ -12,6 +12,9 @@ libwasteland_la_SOURCES = \
   huffman_node.cc \
   huffman_reader.cc \
   huffman_writer.cc \
+  vxor_streambuf.cc \
+  vxor_istream.cc \
+  vxor_ostream.cc \
   image.cc \
   transparent_image.cc \
   sprite_istreams.cc \
@@ -22,7 +25,11 @@ libwasteland_la_SOURCES = \
   cursor.cc \
   tile_reader.cc \
   tile_writer.cc \
-  tile.cc
+  tile.cc \
+  end_anim.cc \
+  end_anim_update.cc \
+  end_anim_frame.cc \
+  end_anim_base_frame.cc
 libwastelandincludedir = $(includedir)
 libwastelandinclude_HEADERS = \
   bit_reader.h \
@@ -30,6 +37,9 @@ libwastelandinclude_HEADERS = \
   huffman_node.h \
   huffman_reader.h \
   huffman_writer.h \
+  vxor_streambuf.h \
+  vxor_istream.h \
+  vxor_ostream.h \
   image.h \
   transparent_image.h \
   sprite_istreams.h \
@@ -40,5 +50,9 @@ libwastelandinclude_HEADERS = \
   cursor.h \
   tile_reader.h \
   tile_writer.h \
-  tile.h
+  tile.h \
+  end_anim.h \
+  end_anim_update.h \
+  end_anim_frame.h \
+  end_anim_base_frame.h  
 AM_CFLAGS = -Wall -Werror -O2

@@ -4,6 +4,7 @@
  */
 
 #include <cstring>
+#include "tile_reader.h"
 #include "tile.h"
 
 using std::istream;

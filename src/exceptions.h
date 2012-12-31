@@ -6,6 +6,8 @@
 #ifndef LIBWASTELAND_EXCEPTIONS_H
 #define LIBWASTELAND_EXCEPTIONS_H
 
+#include <cstring>
+#include <cerrno>
 #include <stdexcept>
 
 namespace wasteland
@@ -38,7 +40,8 @@ public:
      * @param message
      *            The error message.
      */
-    explicit io_error(const std::string &message) : error(message) {};
+    explicit io_error(const std::string &message) : error(
+        message + (errno ? std::string(": ") + (strerror(errno)) : "")) {};
 };
 
 /**

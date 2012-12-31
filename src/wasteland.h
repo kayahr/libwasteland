@@ -11,6 +11,11 @@
  *
  * <ul>
  *   <li>
+ *     Provides the {@link wasteland::vxor_istream vxor_istream} and
+ *     {@link wasteland::vxor_ostream vxor_ostream} classes to read and write
+ *     vertical-xor encoded data.
+ *   </li>
+ *   <li>
  *     Reading and writing the title picture (<code>TITLE.PIC</code>).
  *     See {@link wasteland::title_pic title_pic} class.
  *   </li>

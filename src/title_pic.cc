@@ -5,6 +5,9 @@
 
 #include <cstring>
 #include "title_pic.h"
+#include "vxor_istream.h"
+#include "vxor_ostream.h"
+#include "exceptions.h"
 
 using std::istream;
 using std::ostream;
@@ -81,29 +84,16 @@ void title_pic::set_color(const coord x, const coord y, const color color)
 
 istream& operator>>(istream& stream, title_pic& pic)
 {
-    stream.read(pic.data, 144 * 128);
-
-    for (int y = 1; y != 128; y += 1)
-    {
-        for (int x = 0; x != 144; x += 1)
-        {
-            pic.data[y * 144 + x] ^= pic.data[(y - 1) * 144 + x];
-        }
-    }
-
+    vxor_istream in(stream, 288);
+    in.read(pic.data, 144 * 128);
     return stream;
 }
 
 ostream& operator<<(ostream& stream, const title_pic& pic)
 {
-    for (int y = 0; y != 128; y += 1)
-    {
-        for (int x = 0; x != 144; x += 1)
-        {
-            char key = y ? pic.data[(y - 1) * 144 + x] : 0;
-            stream.put(pic.data[y * 144 + x] ^ key);
-        }
-    }
+    vxor_ostream out(stream, 288);
+    out.write(pic.data, 144 * 128);
+    out.flush();
     return stream;
 }
 

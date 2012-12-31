@@ -15,6 +15,14 @@ test/*.o
 test/*.lo
 test/*.la
 test/test_libwasteland
+tools/.libs
+tools/.deps
+tools/Makefile
+tools/Makefile.in
+tools/*.o
+tools/*.lo
+tools/*.la
+tools/wl_*
 examples/.libs
 examples/.deps
 examples/Makefile

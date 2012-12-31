@@ -3,11 +3,10 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_TITLE_PIC_H
-#define LIBWASTELAND_TITLE_PIC_H
+#ifndef LIBWASTELAND_END_ANIM_BASE_FRAME_H
+#define LIBWASTELAND_END_ANIM_BASE_FRAME_H
 
-#include <istream>
-#include <ostream>
+#include <iostream>
 #include "image.h"
 
 namespace wasteland
@@ -23,7 +22,7 @@ namespace wasteland
  * stream the file into it:
  *
  * @code
- * title_pic pic;
+ * end_anim_base_frame pic;
  * ifstream in("/path/title.pic");
  * in >> pic;
  * @endcode
@@ -44,27 +43,27 @@ namespace wasteland
  * out << pic;
  * @endcode
  */
-class title_pic: public image
+class end_anim_base_frame: public image
 {
     /**
      * Reads the title image from the specified input stream.
      *
      * @return The input stream.
      */
-    friend std::istream& operator>>(std::istream&, title_pic&);
+    friend std::istream& operator>>(std::istream&, end_anim_base_frame&);
 
     /**
      * Writes the title image to the specified output stream.
      *
      * @return The output streams.
      */
-    friend std::ostream& operator<<(std::ostream&, const title_pic&);
+    friend std::ostream& operator<<(std::ostream&, const end_anim_base_frame&);
 
 public:
     /**
      * Constructs a new empty title picture. All colors are set to black.
      */
-    title_pic();
+    end_anim_base_frame();
 
     /**
      * Constructs a new title picture initialized with the image data from
@@ -73,12 +72,12 @@ public:
      * @param other
      *            The picture to copy the image data from.
      */
-    title_pic(const title_pic& other);
+    end_anim_base_frame(const end_anim_base_frame& other);
 
     /**
      * Destructs this title picture.
      */
-    virtual ~title_pic();
+    virtual ~end_anim_base_frame();
 
     /**
      * Copies the image data of the given title picture to this title
@@ -87,7 +86,7 @@ public:
      * @param other
      *            The picture to copy the image data from.
      */
-    virtual title_pic& operator=(const title_pic& other);
+    virtual end_anim_base_frame& operator=(const end_anim_base_frame& other);
 
     /**
      * Compares this title picture with the given title picture.
@@ -96,7 +95,7 @@ public:
      *            The other title picture to compare this one with.
      * @return True if title pictures are equal, false if not.
      */
-    virtual bool operator==(const title_pic& other) const;
+    virtual bool operator==(const end_anim_base_frame& other) const;
 
     /**
      * Compares this title picture with the given title picture.
@@ -105,7 +104,7 @@ public:
      *            The other title picture to compare this one with.
      * @return  False if title pictures are equal, true if not.
      */
-    virtual bool operator!=(const title_pic& other) const;
+    virtual bool operator!=(const end_anim_base_frame& other) const;
 
     virtual size get_width() const;
     virtual size get_height() const;
