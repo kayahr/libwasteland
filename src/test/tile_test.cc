@@ -9,7 +9,7 @@
 #include <string>
 #include <cppunit/TestAssert.h>
 #include "tile_test.h"
-#include "../src/tile.h"
+#include <wasteland/tile.h>
 
 using std::string;
 using std::ifstream;

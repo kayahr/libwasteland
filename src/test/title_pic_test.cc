@@ -9,7 +9,7 @@
 #include <string>
 #include <cppunit/TestAssert.h>
 #include "title_pic_test.h"
-#include "../src/title_pic.h"
+#include <wasteland/title_pic.h>
 
 using std::string;
 using std::ifstream;

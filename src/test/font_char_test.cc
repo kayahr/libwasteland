@@ -9,7 +9,7 @@
 #include <string>
 #include <cppunit/TestAssert.h>
 #include "font_char_test.h"
-#include "../src/font_char.h"
+#include <wasteland/font_char.h>
 
 using std::string;
 using std::ifstream;

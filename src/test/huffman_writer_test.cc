@@ -4,7 +4,7 @@
  */
 
 #include "huffman_writer_test.h"
-#include "../src/huffman_writer.h"
+#include <wasteland/huffman_writer.h>
 
 using std::stringstream;
 using std::string;

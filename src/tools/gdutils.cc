@@ -3,9 +3,9 @@
  * See COPYING file for copying conditions
  */
 
+#include <string>
 #include <gd.h>
-#include <image.h>
-#include <exceptions.h>
+#include <wasteland/exceptions.h>
 #include "gdutils.h"
 
 using namespace std;

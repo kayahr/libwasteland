@@ -8,10 +8,8 @@
 #include <sstream>
 #include <string>
 #include <cppunit/TestAssert.h>
-#include "sprite_test.h"
-#include "../src/sprite_istreams.h"
-#include "../src/sprite_ostreams.h"
-#include "../src/sprite.h"
+#include "cursor_test.h"
+#include <wasteland/cursor.h>
 
 using std::string;
 using std::ifstream;
@@ -21,11 +19,11 @@ using std::istringstream;
 namespace wasteland
 {
 
-CPPUNIT_TEST_SUITE_REGISTRATION(sprite_test);
+CPPUNIT_TEST_SUITE_REGISTRATION(cursor_test);
 
-void sprite_test::test_constructor()
+void cursor_test::test_constructor()
 {
-    sprite pic;
+    cursor pic;
     CPPUNIT_ASSERT_EQUAL(16, (int) pic.get_width());
     CPPUNIT_ASSERT_EQUAL(16, (int) pic.get_height());
     for (int y = 0; y < 16; y += 1)
@@ -33,26 +31,26 @@ void sprite_test::test_constructor()
         for (int x = 0; x < 16; x += 1)
         {
             CPPUNIT_ASSERT_EQUAL(0, (int) pic.get_color(x, y));
-            CPPUNIT_ASSERT_EQUAL(true, pic.is_opaque(x, y));
+            CPPUNIT_ASSERT_EQUAL(false, pic.is_transparent(x, y));
         }
     }
 }
 
-void sprite_test::test_copy_constructor()
+void cursor_test::test_copy_constructor()
 {
-    sprite a;
+    cursor a;
     a.set_color(0, 0, 7);
-    sprite b(a);
+    cursor b(a);
     a.set_color(0, 0, 14);
     CPPUNIT_ASSERT_EQUAL(14, (int) a.get_color(0, 0));
     CPPUNIT_ASSERT_EQUAL(7, (int) b.get_color(0, 0));
 }
 
-void sprite_test::test_assignment_operator()
+void cursor_test::test_assignment_operator()
 {
-    sprite a;
+    cursor a;
     a.set_color(0, 0, 7);
-    sprite b;
+    cursor b;
     b.set_color(0, 0, 14);
     b.set_color(1, 0, 11);
     b = a;
@@ -62,21 +60,21 @@ void sprite_test::test_assignment_operator()
     CPPUNIT_ASSERT_EQUAL(0, (int) b.get_color(1, 0));
 }
 
-void sprite_test::test_get_width()
+void cursor_test::test_get_width()
 {
-    sprite img;
+    cursor img;
     CPPUNIT_ASSERT_EQUAL(16, (int) img.get_width());
 }
 
-void sprite_test::test_get_height()
+void cursor_test::test_get_height()
 {
-    sprite img;
+    cursor img;
     CPPUNIT_ASSERT_EQUAL(16, (int) img.get_height());
 }
 
-void sprite_test::test_get_set_color()
+void cursor_test::test_get_set_color()
 {
-    sprite img;
+    cursor img;
     img.set_color(0, 0, 0);
     img.set_color(0, 1, 5);
     img.set_color(-1, 0, 7);
@@ -92,9 +90,9 @@ void sprite_test::test_get_set_color()
     CPPUNIT_ASSERT_EQUAL(15, (int) img.get_color(0, 1));
 }
 
-void sprite_test::test_get_set_transparency()
+void cursor_test::test_get_set_transparency()
 {
-    sprite img;
+    cursor img;
     img.set_transparent(0, 0, false);
     img.set_transparent(1, 0, true);
     img.set_opaque(0, 1, false);
@@ -106,9 +104,9 @@ void sprite_test::test_get_set_transparency()
     CPPUNIT_ASSERT_EQUAL(true, img.is_opaque(1, 1));
 }
 
-void sprite_test::test_equals()
+void cursor_test::test_equals()
 {
-    sprite a, b;
+    cursor a, b;
 
     CPPUNIT_ASSERT(a == b);
 
@@ -122,16 +120,13 @@ void sprite_test::test_equals()
     CPPUNIT_ASSERT(a != b);
 }
 
-void sprite_test::test_read()
+void cursor_test::test_read()
 {
-    sprite pic;
+    cursor pic;
 
-    ifstream colors_in("data/ic0_9.wlf");
-    ifstream masks_in("data/masks.wlf");
-    sprite_istreams in(colors_in, masks_in);
+    ifstream in("data/curs");
     in >> pic;
-    colors_in.close();
-    masks_in.close();
+    in.close();
 
     CPPUNIT_ASSERT_EQUAL(0, (int) pic.get_color(0, 0));
     CPPUNIT_ASSERT_EQUAL(1, (int) pic.get_color(1, 0));
@@ -154,9 +149,9 @@ void sprite_test::test_read()
     CPPUNIT_ASSERT_EQUAL(15, (int) pic.get_color(1, 14));
 }
 
-void sprite_test::test_write()
+void cursor_test::test_write()
 {
-    sprite pic;
+    cursor pic;
 
     pic.set_color(0, 0, 0);
     pic.set_color(1, 0, 1);
@@ -183,22 +178,14 @@ void sprite_test::test_write()
             if ((y > 1 && y < 14) || (x > 1 && x < 14))
                 pic.set_transparent(x, y);
 
-    ostringstream colors_out;
-    ostringstream masks_out;
-    sprite_ostreams out(colors_out, masks_out);
+    ostringstream out;
     out << pic;
-    string colors_data = colors_out.str();
-    string masks_data = masks_out.str();
+    string data = out.str();
 
-    ifstream colors_in1("data/ic0_9.wlf");
-    ifstream masks_in1("data/masks.wlf");
-    sprite_istreams in1(colors_in1, masks_in1);
-    istringstream colors_in2(colors_data);
-    istringstream masks_in2(masks_data);
-    sprite_istreams in2(colors_in2, masks_in2);
+    ifstream in1("data/curs");
+    istringstream in2(data);
 
-
-    sprite a, b;
+    cursor a, b;
     in1 >> a;
     in2 >> b;
 

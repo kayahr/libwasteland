@@ -11,8 +11,8 @@
 #include <cerrno>
 #include <getopt.h>
 #include <gd.h>
-#include <exceptions.h>
-#include <title_pic.h>
+#include <wasteland/exceptions.h>
+#include <wasteland/title_pic.h>
 #include "config.h"
 #include "gdutils.h"
 #include "decodepic.h"

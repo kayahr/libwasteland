@@ -6,6 +6,8 @@
 #ifndef TOOLS_GDUTILS_H
 #define TOOLS_GDUTILS_H
 
+#include <wasteland/image.h>
+
 namespace tools {
 
 struct rgb

@@ -19,7 +19,8 @@ AC_DEFINE(COPYRIGHT,"Copyright (C) 2012  Klaus Reimer <k@ailis.de>",Copyright me
 AC_CONFIG_FILES(
   Makefile 
   src/Makefile
-  test/Makefile
-  tools/Makefile
+  src/wasteland/Makefile
+  src/tools/Makefile
+  src/test/Makefile
 )
 AC_OUTPUT

@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
+#include <wasteland/bit_writer.h>
 #include "bit_writer_test.h"
-#include "../src/bit_writer.h"
 
 using std::stringstream;
 

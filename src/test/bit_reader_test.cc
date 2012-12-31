@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
+#include <wasteland/bit_reader.h>
 #include "bit_reader_test.h"
-#include "../src/bit_reader.h"
 
 using std::stringstream;
 

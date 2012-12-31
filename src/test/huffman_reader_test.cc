@@ -4,7 +4,7 @@
  */
 
 #include "huffman_reader_test.h"
-#include "../src/huffman_reader.h"
+#include <wasteland/huffman_reader.h>
 
 using std::stringstream;
 

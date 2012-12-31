@@ -9,7 +9,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "image.h"
 #include "program_option.h"
 
 namespace tools
@@ -18,7 +17,7 @@ namespace tools
 class option_error: public std::runtime_error
 {
 public:
-    explicit option_error(const std::string &message) : runtime_error(message) {};
+    explicit option_error(const std::string &message) : std::runtime_error(message) {};
 };
 
 class program

@@ -9,7 +9,7 @@
 #include <iostream>
 #include <getopt.h>
 #include <gd.h>
-#include <exceptions.h>
+#include <wasteland/exceptions.h>
 #include "config.h"
 #include "program.h"
 
