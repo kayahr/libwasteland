@@ -149,7 +149,6 @@ void tile_test::test_read()
 
 void tile_test::test_write()
 {
-    /*
     tile img;
 
     img.set_color(0, 0, 0);
@@ -189,7 +188,6 @@ void tile_test::test_write()
     reader2 >> b;
 
     CPPUNIT_ASSERT(a == b);
-    */
 }
 
 }

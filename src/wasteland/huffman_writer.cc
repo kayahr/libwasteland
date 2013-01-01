@@ -3,11 +3,14 @@
  * See COPYING file for copying conditions
  */
 
+#include <iostream>
 #include "huffman_writer.h"
 #include "huffman_node.h"
 #include <iostream>
 
 using std::ostream;
+using std::cout;
+using std::endl;
 
 namespace wasteland
 {
@@ -114,6 +117,7 @@ void huffman_writer::write_compressed_byte(const uint8_t byte)
 
 void huffman_writer::flush()
 {
+    cout << "1" << endl;
     // Do nothing if there is no data to flush
     if (buffer.empty()) return;
 
@@ -133,7 +137,7 @@ void huffman_writer::flush()
     write_node(root);
 
     // Write the compressed bytes from the buffer
-    for (int i, max = buffer.size(); i != max; i += 1)
+    for (int i = 0, max = buffer.size(); i != max; i += 1)
     {
         write_compressed_byte(buffer[i]);
     }
