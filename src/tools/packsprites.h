@@ -8,10 +8,10 @@
 namespace tools
 {
 
-class unpacksprites : public program
+class packsprites : public program
 {
 public:
-    unpacksprites();
+    packsprites();
     virtual void exec(int argc, char *argv[]);
 };
 

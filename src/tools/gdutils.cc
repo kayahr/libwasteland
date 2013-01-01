@@ -3,6 +3,7 @@
  * See COPYING file for copying conditions
  */
 
+#include <iostream>
 #include <string>
 #include <gd.h>
 #include <wasteland/exceptions.h>
@@ -86,6 +87,51 @@ void image_to_png(const image &img, const char *filename)
     gdImagePng(output, file);
     gdImageDestroy(output);
     fclose(file);
+}
+
+void png_to_image(const char *filename, transparent_image &img)
+{
+    // Load PNG file
+    FILE *file = fopen(filename, "rb");
+    if (!file) throw io_error(string("Unable to open ") + filename);
+    gdImagePtr png = gdImageCreateFromPng(file);
+    fclose(file);
+
+    // Create a temporary second image for resizing and palette conversion
+    gdImagePtr tmp = gdImageCreate(img.get_width(), img.get_height());
+    for (int i = 0; i < 16; i++)
+    {
+        gdImageColorAllocate(tmp, ega_palette[i].red,
+            ega_palette[i].green, ega_palette[i].blue);
+    }
+    int transparent = gdImageColorAllocate(tmp, 0, 0, 0);
+    gdImageColorTransparent(tmp, transparent);
+    for (int i = 17; i < 256; i++) gdImageColorAllocate(tmp, 0, 0, 0);
+    gdImageFilledRectangle(tmp, 0, 0, img.get_width(), img.get_height(),
+        transparent);
+    gdImageCopyResampled(tmp, png, 0, 0, 0, 0,
+        img.get_width(), img.get_height(), gdImageSX(png), gdImageSY(png));
+
+    // Fill pixels into image
+    for (int y = 0; y < img.get_height(); y++)
+    {
+        for (int x = 0; x < img.get_width(); x++)
+        {
+            int color = gdImageGetPixel(tmp, x, y);
+            if (color < transparent)
+            {
+                img.set_color(x, y, color);
+                img.set_transparent(x, y, false);
+            }
+            else
+            {
+                img.set_transparent(x, y, true);
+            }
+        }
+    }
+
+    gdImageDestroy(tmp);
+    gdImageDestroy(png);
 }
 
 void png_to_image(const char *filename, image &img)

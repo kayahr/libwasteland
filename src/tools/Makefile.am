@@ -7,7 +7,8 @@ common_SOURCES = \
 bin_PROGRAMS = \
     decodepic \
     encodepic \
-    unpacksprites
+    unpacksprites \
+    packsprites
     
 decodepic_LDADD = ../wasteland/libwasteland.la
 decodepic_CPPFLAGS = -I..
@@ -23,5 +24,10 @@ unpacksprites_LDADD = ../wasteland/libwasteland.la
 unpacksprites_CPPFLAGS = -I..
 unpacksprites_LDFLAGS = -static
 unpacksprites_SOURCES = $(common_SOURCES) unpacksprites.cc
+
+packsprites_LDADD = ../wasteland/libwasteland.la
+packsprites_CPPFLAGS = -I..
+packsprites_LDFLAGS = -static
+packsprites_SOURCES = $(common_SOURCES) packsprites.cc
 
 AM_CFLAGS = -Wall -Werror -O2

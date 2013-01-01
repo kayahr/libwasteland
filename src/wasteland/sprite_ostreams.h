@@ -21,6 +21,7 @@ class sprite_ostreams
 {
 public:
     sprite_ostreams(std::ostream &color_stream, std::ostream &opacity_stream);
+    operator bool() const;
     std::ostream &color() const;
     std::ostream &opacity() const;
 

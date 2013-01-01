@@ -24,6 +24,7 @@ src/tools/*.la
 src/tools/decodepic
 src/tools/encodepic
 src/tools/unpacksprites
+src/tools/packsprites
 src/Makefile
 src/Makefile.in
 Makefile

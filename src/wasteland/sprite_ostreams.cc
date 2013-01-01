@@ -25,6 +25,14 @@ sprite_ostreams::sprite_ostreams(ostream &color_stream, ostream &opacity_stream)
 }
 
 /**
+ * Casts this object to a boolean so it can be used for EOF checks.
+ */
+sprite_ostreams::operator bool() const
+{
+    return (bool) color_stream && (bool) opacity_stream;
+}
+
+/**
  * Returns the output stream for writing color information.
  *
  * @return The color information output stream.
