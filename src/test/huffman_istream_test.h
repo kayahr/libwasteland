@@ -12,16 +12,14 @@
 namespace wasteland
 {
 
-class huffman_reader_test: public CPPUNIT_NS::TestFixture
+class huffman_istream_test: public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE(huffman_reader_test);
-    CPPUNIT_TEST(test_read_byte);
-    CPPUNIT_TEST(test_read_word);
+    CPPUNIT_TEST_SUITE(huffman_istream_test);
+    CPPUNIT_TEST(test_read);
     CPPUNIT_TEST_SUITE_END();
 
 protected:
-    void test_read_byte();
-    void test_read_word();
+    void test_read();
 };
 
 }

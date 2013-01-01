@@ -4,7 +4,7 @@
  */
 
 #include <cstring>
-#include "huffman_reader.h"
+#include "huffman_istream.h"
 #include "exceptions.h"
 #include "end_anim.h"
 
@@ -106,16 +106,10 @@ istream& operator>>(istream& stream, end_anim& pic)
         throw io_error("MSQ header of base frame block not found");
 
     // Read the base frame
-    huffman_reader reader(stream);
-    reader.read((uint8_t *) pic.data, 144 * 128);
-    for (int y = 1; y != 128; y += 1)
-    {
-        for (int x = 0; x != 144; x += 1)
-        {
-            pic.data[y * 144 + x] ^= pic.data[(y - 1) * 144 + x];
-        }
-    }
-    reader.reset();
+    huffman_istream huffman(stream);
+    //vxor_istream vxor(huffman);
+    // TODO
+    //vxor >> pic.base_frame;
 
     // Read the size of the animation data block
     if (!stream.read((istream::char_type*) b, 4)) throw eos_error();
@@ -127,15 +121,15 @@ istream& operator>>(istream& stream, end_anim& pic)
         throw io_error("MSQ header of animation data block not found");
 
     // Read the animation data size
-    reader.read(b, 2);
+    huffman.read((char *) b, 2);
     int data_size = b[0] | (b[1] << 8);
     if (data_size != size - 4)
         throw io_error("Animation data block size not matching MSQ size");
 
     // Read the frames
-    reader.read(b, 2);
+    huffman.read((char *) b, 2);
     uint16_t delay = b[0] | (b[1] << 8);
-    reader.read(b, 2);
+    huffman.read((char *) b, 2);
     uint16_t offset = b[0] | (b[1] << 8);
     while (offset != 0x0000)
     {
@@ -144,14 +138,14 @@ istream& operator>>(istream& stream, end_anim& pic)
         while (offset != 0xffff)
         {
             // Read update sequence
-            reader.read(b, 4);
+            huffman.read((char *) b, 4);
             uint32_t update = b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24);
 
             // Add update sequence to frame
             frame.push_back(end_anim_update(offset, update));
 
             // Read next offset
-            reader.read(b, 2);
+            huffman.read((char *) b, 2);
             offset = b[0] | (b[1] << 8);
         }
 
@@ -159,9 +153,9 @@ istream& operator>>(istream& stream, end_anim& pic)
         pic.frames.push_back(frame);
 
         // Read next delay and offset
-        reader.read(b, 2);
+        huffman.read((char *) b, 2);
         delay = b[0] | (b[1] << 8);
-        reader.read(b, 2);
+        huffman.read((char *) b, 2);
         offset = b[0] | (b[1] << 8);
     }
 

@@ -4,6 +4,7 @@
  */
 
 #include <iostream>
+#include "vxor_istream.h"
 #include "tile_reader.h"
 #include "exceptions.h"
 
@@ -18,12 +19,12 @@ tile_reader::tile_reader(istream &stream):
     tile_no(0),
     disk(0)
 {
-    reader = new huffman_reader(stream);
+    hstream = new huffman_istream(stream);
 }
 
 tile_reader::~tile_reader()
 {
-    delete reader;
+    delete hstream;
 }
 
 tile_reader::operator bool() const
@@ -70,14 +71,8 @@ int tile_reader::get_tile_no()
 void tile_reader::read_tile_data(uint8_t *data)
 {
     read_header();
-    reader->read(data, 8 * 16);
-    for (int y = 1; y != 16; y += 1)
-    {
-        for (int x = 0; x != 8; x += 1)
-        {
-            data[y * 8 + x] ^= data[(y - 1) * 8 + x];
-        }
-    }
+    vxor_istream stream(*hstream, 16);
+    stream.read((char *) data, 8 * 16);
 
     // Increase current tile number and reset tileset if last tile was read
     tile_no += 1;
@@ -85,7 +80,7 @@ void tile_reader::read_tile_data(uint8_t *data)
     {
         tiles = 0;
         tile_no = 0;
-        reader->reset();
+        hstream->reset();
         read_header();
     }
 }

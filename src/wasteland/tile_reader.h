@@ -7,7 +7,8 @@
 #define LIBWASTELAND_TILE_READER_H
 
 #include <istream>
-#include "huffman_reader.h"
+#include <stdint.h>
+#include "huffman_istream.h"
 
 namespace wasteland
 {
@@ -72,8 +73,8 @@ private:
     /** The input stream to read data from. */
     std::istream &stream;
 
-    /** The reader to read huffman compressed data from. */
-    huffman_reader * reader;
+    /** The huffman input stream to read huffman compressed data. */
+    huffman_istream *hstream;
 
     /** The disk number of the current tileset. */
     int disk;

@@ -7,25 +7,24 @@
 #include "bit_reader.h"
 #include "exceptions.h"
 
-using std::istream;
+using std::streambuf;
 
 namespace wasteland
 {
 
-bit_reader::bit_reader(istream &stream) :
-    stream(stream),
+bit_reader::bit_reader(streambuf &wrap) :
+    wrapped(wrap),
     mask(0),
     buffer(0)
 {
-    assert(stream != NULL);
 }
 
 int bit_reader::read_bit()
 {
     if (!mask)
     {
-        buffer = stream.get();
-        if (buffer == istream::traits_type::eof()) return buffer;
+        buffer = wrapped.sbumpc();
+        if (buffer == streambuf::traits_type::eof()) return buffer;
         mask = 0x80;
     }
     unsigned char tmp = buffer & mask;
@@ -42,7 +41,7 @@ int bit_reader::read_bits(const int bits)
     for (int i = 0; i != bits; ++i)
     {
         int bit = read_bit();
-        if (bit == istream::traits_type::eof()) return -1;
+        if (bit == streambuf::traits_type::eof()) return -1;
         value = value << 1 | bit;
     }
     return value;

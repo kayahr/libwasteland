@@ -4,8 +4,9 @@ libwasteland_la_SOURCES = \
   bit_reader.cc \
   bit_writer.cc \
   huffman_node.cc \
-  huffman_reader.cc \
   huffman_writer.cc \
+  huffman_streambuf.cc \
+  huffman_istream.cc \
   vxor_streambuf.cc \
   vxor_istream.cc \
   vxor_ostream.cc \
@@ -29,8 +30,9 @@ libwastelandinclude_HEADERS = \
   bit_reader.h \
   bit_writer.h \
   huffman_node.h \
-  huffman_reader.h \
   huffman_writer.h \
+  huffman_streambuf.h \
+  huffman_istream.h \
   vxor_streambuf.h \
   vxor_istream.h \
   vxor_ostream.h \

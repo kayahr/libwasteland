@@ -6,14 +6,14 @@
 #ifndef LIBWASTELAND_BIT_READER_H
 #define LIBWASTELAND_BIT_READER_H
 
-#include <istream>
+#include <streambuf>
 #include <stdint.h>
 
 namespace wasteland
 {
 
 /**
- * Reader for bit-wise access to an input stream. Wraps an input stream and
+ * Reader for bit-wise access to a stream buffer. Wraps a stream buffer and
  * provides methods to read single bits from it.
  */
 class bit_reader
@@ -22,20 +22,20 @@ public:
     /**
      * Constructor.
      *
-     * @param stream
-     *            The input stream to wrap.
+     * @param wrap
+     *            The stream buffer to wrap.
      */
-    explicit bit_reader(std::istream &stream);
+    explicit bit_reader(std::streambuf &wrap);
 
     /**
-     * Reads a single bit from the wrapped input stream and returns it.
+     * Reads a single bit from the wrapped stream buffer and returns it.
      *
      * @return The read bit or EOF when end of stream has been reached.
      */
     int read_bit();
 
     /**
-     * Reads the specified number of bits from the wrapped stream and
+     * Reads the specified number of bits from the wrapped stream buffer and
      * returns it.
      *
      * @param bits
@@ -45,7 +45,7 @@ public:
     int read_bits(const int bits);
 
     /**
-     * Reads a byte from the wrapped stream and returns it.
+     * Reads a byte from the wrapped stream buffer and returns it.
      *
      * @return The read byte or EOF if end of stream has been reached.
      */
@@ -57,8 +57,8 @@ public:
     void reset();
 
 private:
-    /** The wrapped input stream. */
-    std::istream &stream;
+    /** The wrapped stream buffer. */
+    std::streambuf &wrapped;
 
     /** Buffered bits. */
     int buffer;
