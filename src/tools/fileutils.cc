@@ -27,4 +27,11 @@ void mkdir(const char *dirname)
     }
 }
 
+string basename(const string &filename)
+{
+    string::size_type index = filename.find_last_of('/');
+    if (index == string::npos) return filename;
+    return filename.substr(index + 1);
+}
+
 }

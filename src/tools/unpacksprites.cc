@@ -17,7 +17,7 @@ using namespace wasteland;
 namespace tools
 {
 
-unpacksprites::unpacksprites() : program("wl_unpacksprites")
+unpacksprites::unpacksprites() : program()
 {
     set_arg_range(3, 3);
     set_syntax("[OPTION]... SPRITESFILE MASKSFILE OUTPUTDIR");

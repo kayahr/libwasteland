@@ -11,6 +11,7 @@
 #include <gd.h>
 #include <wasteland/exceptions.h>
 #include "config.h"
+#include "fileutils.h"
 #include "program.h"
 
 using namespace std;
@@ -19,7 +20,7 @@ using namespace wasteland;
 namespace tools
 {
 
-program::program(const string &name) : name(name), min_args(0), max_args(0)
+program::program() : min_args(0), max_args(0)
 {
     add_option('h', "help", false, "Display help and exit");
     add_option('V', "version", false, "Display version and exit");
@@ -33,6 +34,11 @@ void program::set_arg_range(int min_args, int max_args)
 {
     this->min_args = min_args;
     this->max_args = max_args;
+}
+
+void program::set_name(const string &name)
+{
+    this->name = name;
 }
 
 void program::set_syntax(const string &syntax)
@@ -109,6 +115,9 @@ int program::run(int argc, char *argv[])
 {
     try
     {
+        // Set name from filename if not already present
+        if (name.empty()) set_name(basename(string(argv[0])));
+
         int index = process_options(argc, argv);
         if (index == -1) return 0;
         argc -= index;
@@ -122,8 +131,8 @@ int program::run(int argc, char *argv[])
     }
     catch (option_error &e)
     {
-        cerr << e.what() << endl;
-        cerr << "Use --help to show syntax." << endl;
+        cerr << name << ": " << e.what()
+             << "\nUse --help to show syntax." << endl;
         return 1;
     }
     catch (exception &e)

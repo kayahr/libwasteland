@@ -9,6 +9,7 @@
 namespace tools {
 
 void mkdir(const char *filename);
+std::string basename(const std::string &filename);
 
 }
 

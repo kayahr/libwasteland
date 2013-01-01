@@ -23,8 +23,9 @@ public:
 class program
 {
 public:
-    program(const std::string &name);
+    program();
     virtual ~program();
+    void set_name(const std::string &name);
     void set_arg_range(int min_args, int max_args);
     void set_syntax(const std::string &syntax);
     void set_description(const std::string &description);

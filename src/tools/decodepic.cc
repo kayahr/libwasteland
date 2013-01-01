@@ -15,7 +15,7 @@ using namespace wasteland;
 namespace tools
 {
 
-decodepic::decodepic() : program("wl_decodepic")
+decodepic::decodepic() : program()
 {
     set_arg_range(2, 2);
     set_syntax("[OPTION]... PICFILE PNGFILE");
