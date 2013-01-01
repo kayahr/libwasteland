@@ -22,10 +22,10 @@ AC_DEFUN([AC_WL_TOOLS],[
     tools,
     [  --without-tools         Skip building wasteland tools ],
     [
-      TOOLS=0
+      AM_CONDITIONAL(BUILD_TOOLS, false)
     ],
     [
-      TOOLS=1
+      AM_CONDITIONAL(BUILD_TOOLS, true)
       AC_CHECK_HEADERS(gd.h,,echo "ERROR: gd.h not found"; exit 1;)
       AC_CHECK_LIB(gd,gdImageCreate,,echo "ERROR: GD library not found"; exit 1;)
       AC_CHECK_HEADERS(getopt.h,,echo "ERROR: getopt.h not found"; exit 1;)
