@@ -16,3 +16,19 @@ AC_DEFUN([AC_CHECK_EXTRA],[
     ]
   )
 ])
+
+AC_DEFUN([AC_WL_TOOLS],[
+  AC_ARG_WITH(
+    tools,
+    [  --without-tools         Skip building wasteland tools ],
+    [
+      TOOLS=0
+    ],
+    [
+      TOOLS=1
+      AC_CHECK_HEADERS(gd.h,,echo "ERROR: gd.h not found"; exit 1;)
+      AC_CHECK_LIB(gd,gdImageCreate,,echo "ERROR: GD library not found"; exit 1;)
+      AC_CHECK_HEADERS(getopt.h,,echo "ERROR: getopt.h not found"; exit 1;)
+    ]
+  )
+])
