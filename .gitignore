@@ -29,6 +29,7 @@ src/tools/unpackfont
 src/tools/packfont
 src/tools/unpackcursors
 src/tools/packcursors
+src/tools/unpacktiles
 src/Makefile
 src/Makefile.in
 Makefile

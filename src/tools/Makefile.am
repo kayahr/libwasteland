@@ -12,7 +12,8 @@ bin_PROGRAMS = \
     unpackfont \
     packfont \
     unpackcursors \
-    packcursors
+    packcursors \
+    unpacktiles
     
 decodepic_LDADD = ../wasteland/libwasteland.la
 decodepic_CPPFLAGS = -I..
@@ -53,5 +54,10 @@ packcursors_LDADD = ../wasteland/libwasteland.la
 packcursors_CPPFLAGS = -I..
 packcursors_LDFLAGS = -static
 packcursors_SOURCES = $(common_SOURCES) packcursors.cc
+
+unpacktiles_LDADD = ../wasteland/libwasteland.la
+unpacktiles_CPPFLAGS = -I..
+unpacktiles_LDFLAGS = -static
+unpacktiles_SOURCES = $(common_SOURCES) unpacktiles.cc
 
 AM_CFLAGS = -Wall -Werror -O2
