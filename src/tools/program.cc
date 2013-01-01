@@ -94,15 +94,12 @@ void program::display_usage() const
 
 void program::display_version() const
 {
-    cout
-        << name << " " << VERSION << endl
-        << endl
-        << "Copyright (C) 2012 Klaus Reimer <k@ailis.de>" << endl
-        << "This is free software; see the source for copying conditions. "
-        << "There is NO" << endl << "warranty; not even for MERCHANTABILITY "
-        << "or FITNESS FOR A PARTICULAR PURPOSE." << endl
-        << endl
-        << "Written by Klaus Reimer <k@ailis.de>" << endl;
+    cout << name << " " << VERSION <<
+        "\n\nCopyright (C) 2012-2013 Klaus Reimer <k@ailis.de>\n"
+        "This is free software; see the source for copying conditions. "
+        "There is NO\nwarranty; not even for MERCHANTABILITY "
+        "or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+        "Written by Klaus Reimer <k@ailis.de>" << endl;
 }
 
 void program::add_option(const char short_name, const string &long_name,
