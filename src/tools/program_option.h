@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef TOOLS_OPTION_H
-#define TOOLS_OPTION_H
+#ifndef TOOLS_PROGRAM_OPTION_H
+#define TOOLS_PROGRAM_OPTION_H
 
 #include <string>
 

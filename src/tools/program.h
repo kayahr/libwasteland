@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_PROGRAM_H
-#define LIBWASTELAND_PROGRAM_H
+#ifndef TOOLS_PROGRAM_H
+#define TOOLS_PROGRAM_H
 
 #include <stdexcept>
 #include <string>

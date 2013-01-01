@@ -3,6 +3,9 @@
  * See COPYING file for copying conditions
  */
 
+#ifndef TOOLS_PACKSPRITES_H
+#define TOOLS_PACKSPRITES_H
+
 #include "program.h"
 
 namespace tools
@@ -16,3 +19,5 @@ public:
 };
 
 }
+
+#endif
