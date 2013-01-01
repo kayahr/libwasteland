@@ -7,6 +7,7 @@
 #define TOOLS_GDUTILS_H
 
 #include <wasteland/image.h>
+#include <wasteland/transparent_image.h>
 
 namespace tools {
 
@@ -19,6 +20,7 @@ struct rgb
 
 extern rgb ega_palette[];
 
+void image_to_png(const wasteland::transparent_image &img, const char *filename);
 void image_to_png(const wasteland::image &img, const char *filename);
 void png_to_image(const char *filename, wasteland::image &img);
 

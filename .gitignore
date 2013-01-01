@@ -21,7 +21,9 @@ src/tools/Makefile.in
 src/tools/*.o
 src/tools/*.lo
 src/tools/*.la
-src/tools/wl_*
+src/tools/decodepic
+src/tools/encodepic
+src/tools/unpacksprites
 src/Makefile
 src/Makefile.in
 Makefile

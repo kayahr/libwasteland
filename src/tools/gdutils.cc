@@ -33,6 +33,35 @@ rgb ega_palette[16] = {
     { 0xff, 0xff, 0xff }
 };
 
+void image_to_png(const transparent_image &img, const char *filename)
+{
+    int x, y, i;
+    int palette[16];
+    FILE *file;
+
+    gdImagePtr output = gdImageCreate(img.get_width(), img.get_height());
+    for (i = 0; i < 16; i++)
+    {
+        palette[i] = gdImageColorAllocate(output, ega_palette[i].red,
+            ega_palette[i].green, ega_palette[i].blue);
+    }
+    int transparent = gdImageColorAllocate(output, 0, 0, 0);
+    gdImageColorTransparent(output, transparent);
+    for (y = 0; y < img.get_height(); y++)
+    {
+        for (x = 0; x < img.get_width(); x++)
+        {
+            gdImageSetPixel(output, x, y, img.is_transparent(x, y) ?
+                transparent : palette[img.get_color(x, y)]);
+        }
+    }
+    file = fopen(filename, "wb");
+    if (!file) throw io_error(string("Unable to open ") + filename);
+    gdImagePng(output, file);
+    gdImageDestroy(output);
+    fclose(file);
+}
+
 void image_to_png(const image &img, const char *filename)
 {
     int x, y, i;

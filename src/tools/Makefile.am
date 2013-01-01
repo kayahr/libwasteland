@@ -4,17 +4,23 @@ common_SOURCES = \
     gdutils.cc
 
 bin_PROGRAMS = \
-    wl_decodepic \
-    wl_encodepic
+    decodepic \
+    encodepic \
+    unpacksprites
     
-wl_decodepic_LDADD = ../wasteland/libwasteland.la
-wl_decodepic_CPPFLAGS = -I..
-wl_decodepic_LDFLAGS = -static
-wl_decodepic_SOURCES = $(common_SOURCES) decodepic.cc
+decodepic_LDADD = ../wasteland/libwasteland.la
+decodepic_CPPFLAGS = -I..
+decodepic_LDFLAGS = -static
+decodepic_SOURCES = $(common_SOURCES) decodepic.cc
 
-wl_encodepic_LDADD = ../wasteland/libwasteland.la
-wl_encodepic_CPPFLAGS = -I..
-wl_encodepic_LDFLAGS = -static
-wl_encodepic_SOURCES = $(common_SOURCES) encodepic.cc
+encodepic_LDADD = ../wasteland/libwasteland.la
+encodepic_CPPFLAGS = -I..
+encodepic_LDFLAGS = -static
+encodepic_SOURCES = $(common_SOURCES) encodepic.cc
+
+unpacksprites_LDADD = ../wasteland/libwasteland.la
+unpacksprites_CPPFLAGS = -I..
+unpacksprites_LDFLAGS = -static
+unpacksprites_SOURCES = $(common_SOURCES) unpacksprites.cc
 
 AM_CFLAGS = -Wall -Werror -O2
