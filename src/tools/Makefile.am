@@ -1,7 +1,8 @@
 common_SOURCES = \
     program.cc \
     program_option.cc \
-    gdutils.cc
+    gdutils.cc \
+    fileutils.cc
 
 bin_PROGRAMS = \
     decodepic \

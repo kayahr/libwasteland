@@ -3,13 +3,12 @@
  * See COPYING file for copying conditions
  */
 
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <fstream>
 #include <sstream>
 #include <wasteland/exceptions.h>
 #include <wasteland/sprite.h>
 #include "gdutils.h"
+#include "fileutils.h"
 #include "unpacksprites.h"
 
 using namespace std;
@@ -31,10 +30,7 @@ void unpacksprites::exec(int argc, char *argv[])
     char *masks = argv[1];
     char *dest = argv[2];
 
-    struct stat st;
-    if (stat(dest, &st))
-        if (mkdir(dest, 0755))
-            throw io_error(string("Unable to create directory ") + dest);
+    mkdir(dest);
 
     ifstream colors_file(colors);
     if (!colors_file) throw io_error(string("Unable to open ") + colors);
