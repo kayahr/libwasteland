@@ -16,10 +16,12 @@ class huffman_ostream_test: public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE(huffman_ostream_test);
     CPPUNIT_TEST(test_put);
+    CPPUNIT_TEST(test_write);
     CPPUNIT_TEST_SUITE_END();
 
 protected:
     void test_put();
+    void test_write();
 };
 
 }

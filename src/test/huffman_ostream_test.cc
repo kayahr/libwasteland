@@ -17,30 +17,32 @@ CPPUNIT_TEST_SUITE_REGISTRATION(huffman_ostream_test);
 void huffman_ostream_test::test_put()
 {
     stringstream stream;
-    huffman_ostream writer(stream);
+    huffman_ostream huffman(stream);
 
-    writer.put('c');
-    writer.put('a');
-    writer.put('b');
-    writer.put('a');
-    writer.put('c');
-    writer.put('a');
-    writer.flush();
+    huffman.put('c');
+    huffman.put('a');
+    huffman.put('b');
+    huffman.put('a');
+    huffman.put('c');
+    huffman.put('a');
+    huffman.flush();
 
     CPPUNIT_ASSERT_EQUAL(string("\x2c\x4b\x1a\xc2\xcb"), stream.str());
 }
-/*
-void huffman_ostream_test::test_write_word()
+
+void huffman_ostream_test::test_write()
 {
     stringstream stream;
-    huffman_ostream writer(stream);
-
-    writer.write_word(0x3412);
-    writer.write_word(0x5634);
-    writer.write_word(0x5656);
-    writer.flush();
+    huffman_ostream huffman(stream);
+    uint16_t word = 0x3412;
+    huffman.write((char *) &word, 2);
+    word = 0x5634;
+    huffman.write((char *) &word, 2);
+    word = 0x5656;
+    huffman.write((char *) &word, 2);
+    huffman.flush();
 
     CPPUNIT_ASSERT_EQUAL(string("\x22\x49\xa2\xac\x2f"), stream.str());
 }
-*/
+
 }
