@@ -83,7 +83,6 @@ streambuf::int_type vxor_streambuf::overflow(streambuf::int_type value)
 int vxor_streambuf::sync()
 {
     streambuf::int_type result = this->overflow(traits_type::eof());
-    buffer->pubsync();
     return traits_type::eq_int_type(result, traits_type::eof()) ? -1 : 0;
 }
 

@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#include "huffman_writer_test.h"
-#include <wasteland/huffman_writer.h>
+#include "huffman_ostream_test.h"
+#include <wasteland/huffman_ostream.h>
 
 using std::stringstream;
 using std::string;
@@ -12,28 +12,28 @@ using std::string;
 namespace wasteland
 {
 
-CPPUNIT_TEST_SUITE_REGISTRATION(huffman_writer_test);
+CPPUNIT_TEST_SUITE_REGISTRATION(huffman_ostream_test);
 
-void huffman_writer_test::test_write_byte()
+void huffman_ostream_test::test_put()
 {
     stringstream stream;
-    huffman_writer writer(stream);
+    huffman_ostream writer(stream);
 
-    writer.write_byte('c');
-    writer.write_byte('a');
-    writer.write_byte('b');
-    writer.write_byte('a');
-    writer.write_byte('c');
-    writer.write_byte('a');
+    writer.put('c');
+    writer.put('a');
+    writer.put('b');
+    writer.put('a');
+    writer.put('c');
+    writer.put('a');
     writer.flush();
 
     CPPUNIT_ASSERT_EQUAL(string("\x2c\x4b\x1a\xc2\xcb"), stream.str());
 }
-
-void huffman_writer_test::test_write_word()
+/*
+void huffman_ostream_test::test_write_word()
 {
     stringstream stream;
-    huffman_writer writer(stream);
+    huffman_ostream writer(stream);
 
     writer.write_word(0x3412);
     writer.write_word(0x5634);
@@ -42,5 +42,5 @@ void huffman_writer_test::test_write_word()
 
     CPPUNIT_ASSERT_EQUAL(string("\x22\x49\xa2\xac\x2f"), stream.str());
 }
-
+*/
 }

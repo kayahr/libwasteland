@@ -6,9 +6,12 @@
 #ifndef LIBWASTELAND_HUFFMAN_STREAMBUF_H
 #define LIBWASTELAND_HUFFMAN_STREAMBUF_H
 
+#include <vector>
+#include <list>
+#include <map>
 #include <streambuf>
-#include <istream>
 #include "bit_reader.h"
+#include "bit_writer.h"
 #include "huffman_node.h"
 
 namespace wasteland
@@ -56,7 +59,7 @@ public:
      * @return Unspecified value not equal to traits::eof() on success,
      *         traits::eof() on failure.
      */
-    //virtual std::streambuf::int_type overflow(std::streambuf::int_type);
+    virtual std::streambuf::int_type overflow(std::streambuf::int_type);
 
     /**
      * Synchronizes this buffer and the wrapped buffer.
@@ -76,6 +79,18 @@ private:
     /** The root node of the huffman tree read from the stream. */
     huffman_node *root;
 
+    /** The buffer holding the uncompressed values to write. */
+    std::vector<uint8_t> values;
+
+    /** The list of generated huffman nodes. */
+    std::list<huffman_node *> nodes;
+
+    /** Index mapping a payload to a huffman node. */
+    std::map<uint8_t, huffman_node *> node_index;
+
+    /** The bit writer used to write compressed data to the output stream. */
+    bit_writer *writer;
+
     /**
      * Returns the root node of the huffman tree. If not already done then
      * the huffman tree is read from the stream.
@@ -83,6 +98,23 @@ private:
      * @return The root node of the huffman tree.
      */
     huffman_node * get_root();
+
+    /**
+     * Writes the specified huffman node to the output stream.
+     *
+     * @param node
+     *            The huffman node to write to the stream.
+     */
+    void write_node(const huffman_node *node);
+
+    /**
+     * Compresses the specified byte and writes the compressed bits of it to
+     * the output stream.
+     *
+     * @param byte
+     *            The byte to compress and write to the output stream.
+     */
+    void write_compressed_byte(const uint8_t byte);
 };
 
 }

@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "tile_writer.h"
+#include "vxor_ostream.h"
 #include "exceptions.h"
 
 using std::ostream;
@@ -17,12 +18,12 @@ tile_writer::tile_writer(ostream &stream, const int disk):
     size(0),
     disk(disk)
 {
-    writer = new huffman_writer(stream);
+    huffman = new huffman_ostream(stream);
 }
 
 tile_writer::~tile_writer()
 {
-    delete writer;
+    delete huffman;
 }
 
 void tile_writer::flush()
@@ -42,7 +43,7 @@ void tile_writer::flush()
     stream.put(disk);
 
     // Write the compressed tile data
-    writer->flush();
+    huffman->flush();
 
     // Reset the size
     size = 0;
@@ -50,14 +51,9 @@ void tile_writer::flush()
 
 void tile_writer::write_tile_data(uint8_t *data)
 {
-    for (int y = 0; y != 16; y += 1)
-    {
-        for (int x = 0; x != 8; x += 1)
-        {
-            char key = y ? data[(y - 1) * 8 + x] : 0;
-            writer->write_byte(data[y * 8 + x] ^ key);
-        }
-    }
+    vxor_ostream vxor(*huffman, 16);
+    vxor.write((char *) data, 16 * 8);
+    vxor.flush();
 
     // Increase data size counter
     size += 16 * 8;

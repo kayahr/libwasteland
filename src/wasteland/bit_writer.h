@@ -6,14 +6,13 @@
 #ifndef LIBWASTELAND_BIT_WRITER_H
 #define LIBWASTELAND_BIT_WRITER_H
 
-#include <ostream>
+#include <streambuf>
 
 namespace wasteland
 {
 
 /**
- * Writer for bit-wise writing to an output stream. Wraps an output stream and
- * provides methods to write single bits to it.
+ * Writer for bit-wise writing to a stream buffer.
  */
 class bit_writer
 {
@@ -22,13 +21,13 @@ public:
     /**
      * Constructor.
      *
-     * @param stream
-     *            The output stream to wrap.
+     * @param wrap
+     *            The stream buffer to wrap.
      */
-    explicit bit_writer(std::ostream &stream);
+    explicit bit_writer(std::streambuf &wrap);
 
     /**
-     * Writes a single bit to the wrapped output stream. Make sure to call the
+     * Writes a single bit to the wrapped stream buffer. Make sure to call the
      * flush method after you have written the last bit to ensure that buffered
      * bits are correctly written to the stream.
      *
@@ -38,7 +37,7 @@ public:
     void write_bit(const int bit);
 
     /**
-     * Writes a number of bits to the wrapped output stream. Make sure to call
+     * Writes a number of bits to the wrapped stream buffer. Make sure to call
      * the flush method after you have written the last data to ensure that
      * buffered bits are correctly written to the stream.
      *
@@ -61,7 +60,7 @@ public:
 
     /**
      * Flushes the writer so bits which are still in the buffer are actually
-     * written to the wrapped output stream. The current byte is filled with
+     * written to the wrapped stream buffer. The current byte is filled with
      * cleared bits if necessary.
      */
     void flush();
@@ -69,8 +68,8 @@ public:
 
 private:
 
-    /** The wrapped output stream. */
-    std::ostream &stream;
+    /** The wrapped stream buffer. */
+    std::streambuf &wrapped;
 
     /** The buffered bits. */
     int buffer;

@@ -7,7 +7,7 @@ test_libwasteland_SOURCES = \
 	bit_reader_test.cc \
 	bit_writer_test.cc \
 	huffman_istream_test.cc \
-	huffman_writer_test.cc \
+	huffman_ostream_test.cc \
 	title_pic_test.cc \
 	sprite_test.cc \
 	cursor_test.cc \

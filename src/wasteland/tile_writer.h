@@ -7,7 +7,7 @@
 #define LIBWASTELAND_TILE_WRITER_H
 
 #include <ostream>
-#include "huffman_writer.h"
+#include "huffman_ostream.h"
 
 namespace wasteland
 {
@@ -52,8 +52,8 @@ private:
     /** The output stream to write data to. */
     std::ostream &stream;
 
-    /** The writer to write huffman compressed data. */
-    huffman_writer * writer;
+    /** The huffman stream to write huffman compressed data. */
+    huffman_ostream *huffman;
 
     /** The number of uncompressed bytes written to the tile buffer. */
     int size;

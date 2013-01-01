@@ -18,6 +18,7 @@ namespace wasteland
 class huffman_node
 {
     friend class huffman_writer;
+    friend class huffman_streambuf;
     friend bool compare_huffman_nodes(const huffman_node *a, const huffman_node *b);
 
 public:

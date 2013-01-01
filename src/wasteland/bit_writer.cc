@@ -6,17 +6,16 @@
 #include <assert.h>
 #include "bit_writer.h"
 
-using std::ostream;
+using std::streambuf;
 
 namespace wasteland
 {
 
-bit_writer::bit_writer(ostream &stream) :
-    stream(stream),
+bit_writer::bit_writer(streambuf &wrap) :
+    wrapped(wrap),
     mask(0),
     buffer(0)
 {
-    assert(stream != NULL);
 }
 
 void bit_writer::write_bit(const int bit)
@@ -28,7 +27,7 @@ void bit_writer::write_bit(const int bit)
     mask = mask == 0 ? 1 : (mask << 1);
     if (mask == 0x80)
     {
-        stream.put(buffer);
+        wrapped.sputc(buffer);
         buffer = 0;
         mask = 0;
     }

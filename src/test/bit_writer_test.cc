@@ -16,7 +16,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(bit_writer_test);
 void bit_writer_test::test_write_bit()
 {
     stringstream stream;
-    bit_writer writer(stream);
+    bit_writer writer(*(stream.rdbuf()));
 
     writer.write_bit(0);
     writer.write_bit(1);
@@ -43,7 +43,7 @@ void bit_writer_test::test_write_bit()
 void bit_writer_test::test_write_bits()
 {
     stringstream stream;
-    bit_writer writer(stream);
+    bit_writer writer(*(stream.rdbuf()));
 
     writer.write_bits(0b0111, 4);
     writer.write_bits(0b01, 2);
@@ -57,7 +57,7 @@ void bit_writer_test::test_write_bits()
 void bit_writer_test::test_write_byte()
 {
     stringstream stream;
-    bit_writer writer(stream);
+    bit_writer writer(*(stream.rdbuf()));
 
     writer.write_byte('w');
     writer.write_byte('l');
