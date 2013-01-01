@@ -8,6 +8,12 @@
 
 namespace tools {
 
+#ifdef WIN32
+#define DIR_SEPARATOR '\\'
+#else
+#define DIR_SEPARATOR '/'
+#endif
+
 void mkdir(const char *filename);
 std::string basename(const std::string &filename);
 

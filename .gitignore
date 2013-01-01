@@ -25,6 +25,8 @@ src/tools/decodepic
 src/tools/encodepic
 src/tools/unpacksprites
 src/tools/packsprites
+src/tools/unpackfont
+src/tools/packfont
 src/Makefile
 src/Makefile.in
 Makefile

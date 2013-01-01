@@ -40,7 +40,7 @@ void packsprites::exec(int argc, char *argv[])
     for (int i = 0; i < 10; i += 1)
     {
         ostringstream filename;
-        filename << source << '/' << i << ".png";
+        filename << source << DIR_SEPARATOR << i << ".png";
         sprite sprite;
         png_to_image(filename.str().c_str(), sprite);
         streams << sprite;

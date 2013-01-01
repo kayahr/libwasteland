@@ -6,6 +6,7 @@
 #include <string>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include "fileutils.h"
 
 #include <wasteland/exceptions.h>
 
@@ -29,7 +30,7 @@ void mkdir(const char *dirname)
 
 string basename(const string &filename)
 {
-    string::size_type index = filename.find_last_of('/');
+    string::size_type index = filename.find_last_of(DIR_SEPARATOR);
     if (index == string::npos) return filename;
     return filename.substr(index + 1);
 }

@@ -8,7 +8,9 @@ bin_PROGRAMS = \
     decodepic \
     encodepic \
     unpacksprites \
-    packsprites
+    packsprites \
+    unpackfont \
+    packfont
     
 decodepic_LDADD = ../wasteland/libwasteland.la
 decodepic_CPPFLAGS = -I..
@@ -29,5 +31,15 @@ packsprites_LDADD = ../wasteland/libwasteland.la
 packsprites_CPPFLAGS = -I..
 packsprites_LDFLAGS = -static
 packsprites_SOURCES = $(common_SOURCES) packsprites.cc
+
+unpackfont_LDADD = ../wasteland/libwasteland.la
+unpackfont_CPPFLAGS = -I..
+unpackfont_LDFLAGS = -static
+unpackfont_SOURCES = $(common_SOURCES) unpackfont.cc
+
+packfont_LDADD = ../wasteland/libwasteland.la
+packfont_CPPFLAGS = -I..
+packfont_LDFLAGS = -static
+packfont_SOURCES = $(common_SOURCES) packfont.cc
 
 AM_CFLAGS = -Wall -Werror -O2

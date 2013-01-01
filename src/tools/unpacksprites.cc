@@ -43,7 +43,7 @@ void unpacksprites::exec(int argc, char *argv[])
         streams >> sprite;
         if (!streams) throw io_error("Unable to read sprites");
         ostringstream filename;
-        filename << dest << '/' << i << ".png";
+        filename << dest << DIR_SEPARATOR << i << ".png";
         image_to_png(sprite, filename.str().c_str());
     }
     colors_file.close();
