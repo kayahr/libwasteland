@@ -1,19 +1,11 @@
 /*
- * Copyright (C) 2012  Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2012 Klaus Reimer <k@ailis.de>
  * See COPYING file for copying conditions
  */
 
-#include <iostream>
 #include <fstream>
-#include <cstring>
-#include <cstdarg>
-#include <cstdlib>
-#include <cerrno>
-#include <getopt.h>
-#include <gd.h>
 #include <wasteland/exceptions.h>
 #include <wasteland/title_pic.h>
-#include "config.h"
 #include "gdutils.h"
 #include "decodepic.h"
 
@@ -44,7 +36,7 @@ void decodepic::exec(int argc, char *argv[])
     infile.close();
 
     // Write the PNG file
-    image_to_png(dest, pic);
+    image_to_png(pic, dest);
 }
 
 }

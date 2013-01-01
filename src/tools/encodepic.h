@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Klaus Reimer <k@ailis.de>
+ * Copyright (C) 2013 Klaus Reimer <k@ailis.de>
  * See COPYING file for copying conditions
  */
 
@@ -8,10 +8,10 @@
 namespace tools
 {
 
-class decodepic : public program
+class encodepic : public program
 {
 public:
-    decodepic();
+    encodepic();
     virtual void exec(int argc, char *argv[]);
 };
 

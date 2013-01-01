@@ -19,7 +19,8 @@ struct rgb
 
 extern rgb ega_palette[];
 
-void image_to_png(const char *filename, const wasteland::image &img);
+void image_to_png(const wasteland::image &img, const char *filename);
+void png_to_image(const char *filename, wasteland::image &img);
 
 }
 

@@ -28,6 +28,7 @@ public:
     void set_arg_range(int min_args, int max_args);
     void set_syntax(const std::string &syntax);
     void set_description(const std::string &description);
+    void set_documentation(const std::string &documentation);
     void display_usage() const;
     void display_version() const;
     void add_option(const char short_name, const std::string &long_name,
@@ -43,6 +44,7 @@ private:
     std::string name;
     std::string syntax;
     std::string description;
+    std::string documentation;
     std::vector<program_option> options;
 };
 

@@ -45,13 +45,18 @@ void program::set_description(const string &description)
     this->description = description;
 }
 
+void program::set_documentation(const string &documentation)
+{
+    this->documentation = documentation;
+}
+
 void program::display_usage() const
 {
     cout
-        << "Usage: " << name << " " << syntax << endl
-        << description << endl
-        << endl
-        << "Options" << endl;
+        << "Usage: " << name << " " << syntax << '\n'
+        << description
+        << "\n\n"
+        << "Options\n" << '\n';
 
     int max_len = 0;
     for(vector<program_option>::const_iterator it = options.begin();
@@ -75,11 +80,10 @@ void program::display_usage() const
         }
         while (spaces--) cout << ' ';
         cout << it->get_description();
-        cout << endl;
+        cout << '\n';
     }
-    cout
-        << endl
-        << "Report bugs to Klaus Reimer <k@ailis.de>" << endl;
+    if (!documentation.empty()) cout << '\n' << documentation << '\n';
+    cout << "\nReport bugs to Klaus Reimer <k@ailis.de>" << endl;
 }
 
 void program::display_version() const
