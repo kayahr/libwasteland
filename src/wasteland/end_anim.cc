@@ -111,10 +111,8 @@ istream& operator>>(istream& stream, end_anim& pic)
             pic.frame_updates.push_back(update);
         else
             break;
-        std::cout << "Frame update" << update.get_delay() << std::endl;
     }
     while (true);
-    std::cout << "end" << std::endl;
 
     return stream;
 }
