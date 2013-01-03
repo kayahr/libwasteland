@@ -6,77 +6,102 @@
 #ifndef LIBWASTELAND_END_ANIM_UPDATE_H
 #define LIBWASTELAND_END_ANIM_UPDATE_H
 
-#include <iostream>
+#include <vector>
 #include <stdint.h>
-#include "image.h"
+#include <istream>
+#include <ostream>
+#include "end_anim_block.h"
+#include "end_anim_frame.h"
 
 namespace wasteland
 {
 
 /**
- * Container for a single end animation frame update sequence.
+ * Container for a single end animation frame.
  */
 class end_anim_update
 {
-public:
     /**
-     * Constructs a new animation frame update sequence.
+     * Reads the animation block from the specified input stream.
      *
-     * @param offset
-     *            The offset address. Formula: (y * 320 + x) / 8.
-     * @param update
-     *            The update sequence. Each 4 bit of this 32 bit value
-     *            represents one pixel.
+     * @return The input stream.
      */
-    end_anim_update(const uint16_t offset, const uint32_t update);
+    friend std::istream& operator>>(std::istream&, end_anim_update&);
 
     /**
-     * Destructs this update sequence.
+     * Writes the animation block to the specified output stream.
+     *
+     * @return The output streams.
+     */
+    friend std::ostream& operator<<(std::ostream&, const end_anim_update&);
+
+public:
+    /**
+     * Constructs a new animation frame.
+     */
+    end_anim_update();
+
+    /**
+     * Constructs a new animation frame with the given delay.
+     *
+     * @param delay
+     *            The frame delay.
+     */
+    end_anim_update(const uint16_t delay);
+
+    /**
+     * Destructs this animation frame.
      */
     virtual ~end_anim_update();
 
     /**
-     * Returns the raw offset address where to apply the update sequence.
-     * Formula: (y * 320 + x) / 8.
+     * Returns the frame delay.
      *
-     * @return The offset address.
+     * @return The frame delay.
      */
-    virtual uint16_t get_offset() const;
+    virtual uint16_t get_delay() const;
 
     /**
-     * Returns the horizontal offset where to apply the update sequence.
+     * Sets the frame delay.
      *
-     * @return The horizontal offset.
+     * @param delay
+     *            The frame delay to set.
      */
-    virtual image::coord get_offset_x() const;
+    virtual void set_delay(const uint16_t delay);
 
     /**
-     * Returns the vertical offset where to apply the update sequence.
+     * Compares this animation update with the given one.
      *
-     * @return The vertical offset.
+     * @param other
+     *            The other animation update to compare this one with.
+     * @return True if animation updates are equal, false if not.
      */
-    virtual image::coord get_offset_y() const;
+    virtual bool operator==(const end_anim_update& other) const;
 
     /**
-     * Returns the update sequence. Each 4 bit of the returned 32 bit value
-     * represents one pixel.
+     * Compares this animation update with the given one.
      *
-     * @return The update sequence.
+     * @param other
+     *            The other animation update to compare this one with.
+     * @return False if animation updates are equal, false if not.
      */
-    virtual uint32_t get_update() const;
+    virtual bool operator!=(const end_anim_update& other) const;
 
     /**
-     * Returns the update color of the pixel with the specified index.
+     * Applies this animation update to the specified frame.
      *
-     * @param index
-     *            The pixel index (0-7)
-     * @return The update color
+     * @param frame
+     *            The frame to apply this animation update to.
      */
-    virtual image::color get_color(const uint8_t index) const;
+    virtual void apply(end_anim_frame& frame) const;
+
+    virtual std::vector<end_anim_block> get_blocks();
+
+    virtual const std::vector<end_anim_block> get_blocks() const;
 
 private:
-    uint16_t offset;
-    uint32_t update;
+    uint16_t delay;
+    std::vector<end_anim_block> blocks;
 };
 
 }

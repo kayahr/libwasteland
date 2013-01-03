@@ -6,54 +6,45 @@
 #ifndef LIBWASTELAND_END_ANIM_FRAME_H
 #define LIBWASTELAND_END_ANIM_FRAME_H
 
-#include <vector>
-#include <stdint.h>
-#include "end_anim_update.h"
+#include <iostream>
+#include "vxor_image.h"
 
 namespace wasteland
 {
 
 /**
- * Container for a single end animation frame.
+ * Container for a complete frame of the end animation.
  */
-class end_anim_frame: public std::vector<end_anim_update>
+class end_anim_frame: public vxor_image
 {
 public:
     /**
-     * Constructs a new animation frame.
+     * Constructs a new empty end animation frame. All colors are set to
+     * black.
      */
     end_anim_frame();
 
     /**
-     * Constructs a new animation frame with the given delay.
+     * Constructs a new end animation frame with the image data from the
+     * specified end animation frame.
      *
-     * @param delay
-     *            The frame delay.
+     * @param other
+     *            The end animation frame to copy the image data from.
      */
-    end_anim_frame(const uint16_t delay);
+    end_anim_frame(const end_anim_frame& other);
 
     /**
-     * Destructs this animation frame.
+     * Destructs this end animation frame.
      */
     virtual ~end_anim_frame();
 
     /**
-     * Returns the frame delay.
+     * Copies the image data of the given end animation frame into this one..
      *
-     * @return The frame delay.
+     * @param other
+     *            The end animation frame to copy the image data from.
      */
-    virtual uint16_t get_delay() const;
-
-    /**
-     * Sets the frame delay.
-     *
-     * @param delay
-     *            The frame delay to set.
-     */
-    virtual void set_delay(const uint16_t delay);
-
-private:
-    uint16_t delay;
+    virtual end_anim_frame& operator=(const end_anim_frame& other);
 };
 
 }

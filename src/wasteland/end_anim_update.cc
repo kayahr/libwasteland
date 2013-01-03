@@ -4,15 +4,22 @@
  */
 
 #include "end_anim_update.h"
-#include <iostream>
+
+using std::vector;
+using std::istream;
+using std::ostream;
 
 namespace wasteland
 {
 
-end_anim_update::end_anim_update(const uint16_t offset, const uint32_t update)
+end_anim_update::end_anim_update()
 {
-    this->offset = offset;
-    this->update = update;
+    this->delay = 0;
+}
+
+end_anim_update::end_anim_update(const uint16_t delay)
+{
+    this->delay = delay;
 }
 
 end_anim_update::~end_anim_update()
@@ -20,33 +27,72 @@ end_anim_update::~end_anim_update()
     // Nothing to do.
 }
 
-uint16_t end_anim_update::get_offset() const
+uint16_t end_anim_update::get_delay() const
 {
-    return offset;
+    return delay;
 }
 
-image::coord end_anim_update::get_offset_x() const
+void end_anim_update::set_delay(const uint16_t delay)
 {
-    return offset * 8 % 320;
+    this->delay = delay;
 }
 
-image::coord end_anim_update::get_offset_y() const
+vector<end_anim_block> end_anim_update::get_blocks()
 {
-    return offset * 8 / 320;
+    return blocks;
 }
 
-uint32_t end_anim_update::get_update() const
+const vector<end_anim_block> end_anim_update::get_blocks() const
 {
-    return update;
+    return blocks;
 }
 
-image::color end_anim_update::get_color(const uint8_t index) const
+bool end_anim_update::operator==(const end_anim_update& other) const
 {
-    uint8_t value = (update >> (4 - index / 2)) & 0xff;
-    if (index & 1)
-        return value  & 0xf;
-    else
-        return (value & 0xf0) >> 4;
+    return delay == other.delay && blocks == other.blocks;
+}
+
+bool end_anim_update::operator!=(const end_anim_update& other) const
+{
+    return !(*this == other);
+}
+
+void end_anim_update::apply(end_anim_frame& frame) const
+{
+    for(vector<end_anim_block>::const_iterator block = blocks.begin(),
+        end = blocks.end(); block != end; ++block)
+    {
+        block->apply(frame);
+    }
+}
+
+istream& operator>>(istream& stream, end_anim_update& update)
+{
+    stream.read((char *) &update.delay, 2);
+    update.blocks.clear();
+    do
+    {
+        end_anim_block block;
+        stream >> block;
+        if (block.get_offset() != 0xffff && block.get_offset() != 0x0000)
+            update.blocks.push_back(block);
+        else
+            break;
+    }
+    while (true);
+    return stream;
+}
+
+ostream& operator<<(ostream& stream, const end_anim_update& update)
+{
+    stream.write((char *) &update.delay, 2);
+    for(vector<end_anim_block>::const_iterator block = update.blocks.begin(),
+        end = update.blocks.end(); block != end; ++block)
+    {
+        stream << *block;
+    }
+    stream << end_anim_block(0xffff, 0);
+    return stream;
 }
 
 }

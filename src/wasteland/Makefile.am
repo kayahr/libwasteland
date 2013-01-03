@@ -23,9 +23,9 @@ libwasteland_la_SOURCES = \
   tile_writer.cc \
   tile.cc \
   end_anim.cc \
+  end_anim_block.cc \
   end_anim_update.cc \
-  end_anim_frame.cc \
-  end_anim_base_frame.cc
+  end_anim_frame.cc
 libwastelandincludedir = $(includedir)
 libwastelandinclude_HEADERS = \
   bit_reader.h \
@@ -50,7 +50,7 @@ libwastelandinclude_HEADERS = \
   tile_writer.h \
   tile.h \
   end_anim.h \
+  end_anim_block.h \
   end_anim_update.h \
-  end_anim_frame.h \
-  end_anim_base_frame.h  
+  end_anim_frame.h
 AM_CFLAGS = -Wall -Werror -O2

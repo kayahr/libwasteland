@@ -16,79 +16,54 @@ namespace wasteland
 
 end_anim::end_anim()
 {
-    data = new char[144 * 128];
-    memset(data, 0, 144 * 128);
 }
 
-end_anim::end_anim(const end_anim &animation)
+end_anim::end_anim(const end_anim &other)
 {
-    data = new char[144 * 128];
-    memcpy(data, animation.data, 144 * 128);
+    base_frame = other.get_base_frame();
+    frame_updates = other.get_frame_updates();
 }
 
 end_anim::~end_anim()
 {
-    delete[] data;
 }
 
-end_anim& end_anim::operator=(const end_anim& animation)
+end_anim& end_anim::operator=(const end_anim& other)
 {
-    delete[] data;
-    data = new char[144 * 128];
-    memcpy(data, animation.data, 144 * 128);
+    base_frame = other.get_base_frame();
+    frame_updates = other.get_frame_updates();
     return *this;
 }
 
-bool end_anim::operator==(const end_anim& animation) const
+bool end_anim::operator==(const end_anim& other) const
 {
-    return !memcmp(data, animation.data, 144 * 128);
+    return base_frame == other.get_base_frame() &&
+        frame_updates == other.get_frame_updates();
 }
 
-bool end_anim::operator!=(const end_anim& animation) const
+bool end_anim::operator!=(const end_anim& other) const
 {
-    return !(*this == animation);
+    return !(*this == other);
 }
 
-end_anim::size end_anim::get_width() const
+const std::vector<end_anim_update>& end_anim::get_frame_updates() const
 {
-    return 288;
+    return frame_updates;
 }
 
-end_anim::size end_anim::get_height() const
+std::vector<end_anim_update>& end_anim::get_frame_updates()
 {
-    return 128;
+    return frame_updates;
 }
 
-end_anim::color end_anim::get_color(const coord x, const coord y) const
+const end_anim_frame end_anim::get_base_frame() const
 {
-    if (x >= 288 || y >= 128) return 0;
-
-    int index = y * 144 + (x >> 1);
-    if (x & 1)
-        return data[index] & 0xf;
-    else
-        return (data[index] & 0xf0) >> 4;
+    return base_frame;
 }
 
-void end_anim::set_color(const coord x, const coord y, const color color)
+end_anim_frame end_anim::get_base_frame()
 {
-    if (x >= 288 || y >= 128) return;
-
-    int index = y * 144 + (x >> 1);
-    if (x & 1)
-        data[index] = (data[index] & 0xf0) | (color & 0xf);
-    else
-        data[index] = (data[index] & 0xf) | ((color & 0xf) << 4);
-}
-
-const std::vector<end_anim_frame> end_anim::get_frames() const
-{
-    return frames;
-}
-
-std::vector<end_anim_frame> end_anim::get_frames()
-{
-    return frames;
+    return base_frame;
 }
 
 istream& operator>>(istream& stream, end_anim& pic)
@@ -98,18 +73,16 @@ istream& operator>>(istream& stream, end_anim& pic)
     if (!stream.read((istream::char_type*) b, 4)) throw eos_error();
     int size = b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24);
     if (size != 288 * 128 / 2)
-        throw io_error("Base frame block has invalid size");
+        throw error("Base frame block has invalid size");
 
     // Read and validate the MSQ header of the base frame block
     if (!stream.read((istream::char_type*) b, 4)) throw eos_error();
     if (b[0] != 'm' || b[1] != 's' || b[2] != 'q' || (b[3] != 0))
-        throw io_error("MSQ header of base frame block not found");
+        throw error("MSQ header of base frame block not found");
 
     // Read the base frame
     huffman_istream huffman(stream);
-    //vxor_istream vxor(huffman);
-    // TODO
-    //vxor >> pic.base_frame;
+    huffman >> pic.base_frame;
 
     // Read the size of the animation data block
     if (!stream.read((istream::char_type*) b, 4)) throw eos_error();
@@ -118,46 +91,30 @@ istream& operator>>(istream& stream, end_anim& pic)
     // Read and validate the MSQ header of the animation data block
     if (!stream.read((istream::char_type*) b, 4)) throw eos_error();
     if (b[0] != 0x08 || b[1] != 0x67 || b[2] != 0x01 || (b[3] != 0))
-        throw io_error("MSQ header of animation data block not found");
+        throw error("MSQ header of animation data block not found");
+
+    // Reset the huffman stream, new MSQ block begins
+    huffman.reset();
 
     // Read the animation data size
     huffman.read((char *) b, 2);
     int data_size = b[0] | (b[1] << 8);
     if (data_size != size - 4)
-        throw io_error("Animation data block size not matching MSQ size");
+        throw error("Animation data block size not matching MSQ size");
 
     // Read the frames
-    huffman.read((char *) b, 2);
-    uint16_t delay = b[0] | (b[1] << 8);
-    huffman.read((char *) b, 2);
-    uint16_t offset = b[0] | (b[1] << 8);
-    while (offset != 0x0000)
+    do
     {
-        end_anim_frame frame(delay);
-
-        while (offset != 0xffff)
-        {
-            // Read update sequence
-            huffman.read((char *) b, 4);
-            uint32_t update = b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24);
-
-            // Add update sequence to frame
-            frame.push_back(end_anim_update(offset, update));
-
-            // Read next offset
-            huffman.read((char *) b, 2);
-            offset = b[0] | (b[1] << 8);
-        }
-
-        // Add frame to list of frames
-        pic.frames.push_back(frame);
-
-        // Read next delay and offset
-        huffman.read((char *) b, 2);
-        delay = b[0] | (b[1] << 8);
-        huffman.read((char *) b, 2);
-        offset = b[0] | (b[1] << 8);
+        end_anim_update update;
+        huffman >> update;
+        if (update.get_delay() != 0)
+            pic.frame_updates.push_back(update);
+        else
+            break;
+        std::cout << "Frame update" << update.get_delay() << std::endl;
     }
+    while (true);
+    std::cout << "end" << std::endl;
 
     return stream;
 }

@@ -8,8 +8,8 @@
 
 #include <vector>
 #include <iostream>
-#include "image.h"
 #include "end_anim_frame.h"
+#include "end_anim_update.h"
 
 namespace wasteland
 {
@@ -34,7 +34,7 @@ namespace wasteland
  * {@link next_frame} method to advance to the next frame after some delay
  * (See @link get_next_delay}).
  */
-class end_anim: public image
+class end_anim
 {
     /**
      * Reads the end animation from the specified input stream.
@@ -97,27 +97,36 @@ public:
     virtual bool operator!=(const end_anim& other) const;
 
     /**
-     * Returns the list of animation frames.
+     * Returns the base frame.
      *
-     * @return The animation frames.
+     * @return The base frame.
      */
-    virtual const std::vector<end_anim_frame> get_frames() const;
+    virtual const end_anim_frame get_base_frame() const;
 
     /**
-     * Returns the list of animation frames.
+     * Returns the base frame.
      *
-     * @return The animation frames.
+     * @return The base frame.
      */
-    virtual std::vector<end_anim_frame> get_frames();
+    virtual end_anim_frame get_base_frame();
 
-    virtual size get_width() const;
-    virtual size get_height() const;
-    virtual color get_color(const coord x, const coord y) const;
-    virtual void set_color(const coord x, const coord y, const color color);
+    /**
+     * Returns the list of animation frame updates.
+     *
+     * @return The animation frame updates.
+     */
+    virtual const std::vector<end_anim_update> &get_frame_updates() const;
+
+    /**
+     * Returns the list of animation frame updates.
+     *
+     * @return The animation frame updates.
+     */
+    virtual std::vector<end_anim_update> &get_frame_updates();
 
 private:
-    char *data;
-    std::vector<end_anim_frame> frames;
+    end_anim_frame base_frame;
+    std::vector<end_anim_update> frame_updates;
 };
 
 }

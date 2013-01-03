@@ -3,34 +3,32 @@
  * See COPYING file for copying conditions
  */
 
+#include <cstring>
 #include "end_anim_frame.h"
+
+using std::istream;
+using std::ostream;
 
 namespace wasteland
 {
 
-end_anim_frame::end_anim_frame()
+end_anim_frame::end_anim_frame() : vxor_image(288, 128)
 {
-    this->delay = 0;
 }
 
-end_anim_frame::end_anim_frame(const uint16_t delay)
+end_anim_frame::end_anim_frame(const end_anim_frame &other) : vxor_image(288, 128)
 {
-    this->delay = delay;
+    memcpy(data, other.data, size);
 }
 
 end_anim_frame::~end_anim_frame()
 {
-    // Nothing to do.
 }
 
-uint16_t end_anim_frame::get_delay() const
+end_anim_frame& end_anim_frame::operator=(const end_anim_frame& other)
 {
-    return delay;
-}
-
-void end_anim_frame::set_delay(const uint16_t delay)
-{
-    this->delay = delay;
+    memcpy(data, other.data, size);
+    return *this;
 }
 
 }

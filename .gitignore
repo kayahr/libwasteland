@@ -30,6 +30,7 @@ src/tools/packfont
 src/tools/unpackcursors
 src/tools/packcursors
 src/tools/unpacktiles
+src/tools/unpackcpa
 src/Makefile
 src/Makefile.in
 Makefile
