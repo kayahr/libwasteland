@@ -12,6 +12,7 @@ libwasteland_la_SOURCES = \
   vxor_ostream.cc \
   image.cc \
   transparent_image.cc \
+  vxor_image.cc \
   sprite_istreams.cc \
   sprite_ostreams.cc \
   title_pic.cc \
@@ -37,6 +38,7 @@ libwastelandinclude_HEADERS = \
   vxor_istream.h \
   vxor_ostream.h \
   image.h \
+  vxor_image.h \
   transparent_image.h \
   sprite_istreams.h \
   sprite_ostreams.h \

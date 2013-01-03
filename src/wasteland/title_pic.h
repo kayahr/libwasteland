@@ -8,7 +8,7 @@
 
 #include <istream>
 #include <ostream>
-#include "image.h"
+#include "vxor_image.h"
 
 namespace wasteland
 {
@@ -44,22 +44,8 @@ namespace wasteland
  * out << pic;
  * @endcode
  */
-class title_pic: public image
+class title_pic: public vxor_image
 {
-    /**
-     * Reads the title image from the specified input stream.
-     *
-     * @return The input stream.
-     */
-    friend std::istream& operator>>(std::istream&, title_pic&);
-
-    /**
-     * Writes the title image to the specified output stream.
-     *
-     * @return The output streams.
-     */
-    friend std::ostream& operator<<(std::ostream&, const title_pic&);
-
 public:
     /**
      * Constructs a new empty title picture. All colors are set to black.
@@ -88,32 +74,6 @@ public:
      *            The picture to copy the image data from.
      */
     virtual title_pic& operator=(const title_pic& other);
-
-    /**
-     * Compares this title picture with the given title picture.
-     *
-     * @param other
-     *            The other title picture to compare this one with.
-     * @return True if title pictures are equal, false if not.
-     */
-    virtual bool operator==(const title_pic& other) const;
-
-    /**
-     * Compares this title picture with the given title picture.
-     *
-     * @param other
-     *            The other title picture to compare this one with.
-     * @return  False if title pictures are equal, true if not.
-     */
-    virtual bool operator!=(const title_pic& other) const;
-
-    virtual size get_width() const;
-    virtual size get_height() const;
-    virtual color get_color(const coord x, const coord y) const;
-    virtual void set_color(const coord x, const coord y, const color color);
-
-private:
-    char *data;
 };
 
 }
