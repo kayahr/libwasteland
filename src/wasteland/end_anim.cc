@@ -107,7 +107,7 @@ istream& operator>>(istream& stream, end_anim& pic)
     {
         end_anim_update update;
         huffman >> update;
-        if (update.get_delay() != 0)
+        if (update.get_delay() != 0xffff)
             pic.frame_updates.push_back(update);
         else
             break;
