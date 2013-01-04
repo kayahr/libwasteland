@@ -43,6 +43,10 @@ void unpackcpa::exec(int argc, char *argv[])
     frame = anim.get_base_frame();
     image_to_png(frame, filename.str().c_str());
 
+    ostringstream delay_filename;
+    delay_filename << dest << DIR_SEPARATOR << "delays.txt";
+    fstream delay_file(delay_filename.str().c_str(), ios_base::out);
+
     int index = 1;
     for(vector<end_anim_update>::const_iterator update = anim.get_frame_updates().begin(),
         end = anim.get_frame_updates().end(); update != end; ++update)
@@ -50,10 +54,12 @@ void unpackcpa::exec(int argc, char *argv[])
         update->apply(frame);
         ostringstream filename;
         filename << dest << DIR_SEPARATOR << index << ".png";
+        delay_file << update->get_delay() << endl;
         image_to_png(frame, filename.str().c_str());
         index += 1;
     }
 
+    delay_file.close();
     file.close();
 }
 
