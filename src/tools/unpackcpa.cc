@@ -48,8 +48,8 @@ void unpackcpa::exec(int argc, char *argv[])
     fstream delay_file(delay_filename.str().c_str(), ios_base::out);
 
     int index = 1;
-    for(vector<end_anim_update>::const_iterator update = anim.get_frame_updates().begin(),
-        end = anim.get_frame_updates().end(); update != end; ++update)
+    for(vector<end_anim_update>::const_iterator update = anim.get_updates().begin(),
+        end = anim.get_updates().end(); update != end; ++update)
     {
         update->apply(frame);
         ostringstream filename;

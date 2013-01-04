@@ -115,18 +115,18 @@ public:
      *
      * @return The animation frame updates.
      */
-    virtual const std::vector<end_anim_update> &get_frame_updates() const;
+    virtual const std::vector<end_anim_update> &get_updates() const;
 
     /**
      * Returns the list of animation frame updates.
      *
      * @return The animation frame updates.
      */
-    virtual std::vector<end_anim_update> &get_frame_updates();
+    virtual std::vector<end_anim_update> &get_updates();
 
 private:
     end_anim_frame base_frame;
-    std::vector<end_anim_update> frame_updates;
+    std::vector<end_anim_update> updates;
 };
 
 }

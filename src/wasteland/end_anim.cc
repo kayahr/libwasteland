@@ -4,12 +4,17 @@
  */
 
 #include <cstring>
+#include <sstream>
 #include "huffman_istream.h"
+#include "huffman_ostream.h"
 #include "exceptions.h"
 #include "end_anim.h"
 
+using std::vector;
+using std::string;
 using std::istream;
 using std::ostream;
+using std::ostringstream;
 
 namespace wasteland
 {
@@ -21,7 +26,7 @@ end_anim::end_anim()
 end_anim::end_anim(const end_anim &other)
 {
     base_frame = other.get_base_frame();
-    frame_updates = other.get_frame_updates();
+    updates = other.get_updates();
 }
 
 end_anim::~end_anim()
@@ -31,14 +36,14 @@ end_anim::~end_anim()
 end_anim& end_anim::operator=(const end_anim& other)
 {
     base_frame = other.get_base_frame();
-    frame_updates = other.get_frame_updates();
+    updates = other.get_updates();
     return *this;
 }
 
 bool end_anim::operator==(const end_anim& other) const
 {
     return base_frame == other.get_base_frame() &&
-        frame_updates == other.get_frame_updates();
+        updates == other.get_updates();
 }
 
 bool end_anim::operator!=(const end_anim& other) const
@@ -46,14 +51,14 @@ bool end_anim::operator!=(const end_anim& other) const
     return !(*this == other);
 }
 
-const std::vector<end_anim_update>& end_anim::get_frame_updates() const
+const std::vector<end_anim_update>& end_anim::get_updates() const
 {
-    return frame_updates;
+    return updates;
 }
 
-std::vector<end_anim_update>& end_anim::get_frame_updates()
+vector<end_anim_update>& end_anim::get_updates()
 {
-    return frame_updates;
+    return updates;
 }
 
 const end_anim_frame end_anim::get_base_frame() const
@@ -107,7 +112,7 @@ istream& operator>>(istream& stream, end_anim& pic)
         end_anim_update update;
         huffman >> update;
         if (update.get_delay() != 0xffff)
-            pic.frame_updates.push_back(update);
+            pic.updates.push_back(update);
         else
             break;
     }
@@ -116,16 +121,37 @@ istream& operator>>(istream& stream, end_anim& pic)
     return stream;
 }
 
-ostream& operator<<(ostream& stream, const end_anim& pic)
+ostream& operator<<(ostream& stream, const end_anim& anim)
 {
-//    for (int y = 0; y != 128; y += 1)
-//    {
-//        for (int x = 0; x != 144; x += 1)
-//        {
-//            char key = y ? pic.data[(y - 1) * 144 + x] : 0;
-//            stream.put(pic.data[y * 144 + x] ^ key);
-//        }
-//    }
+    // Write first MSQ block (The base frame)
+    uint32_t size = 144 * 128;
+    stream.write((char *) &size, 4);
+    char msq1[4] = { 'm', 's', 'q', 0x00 };
+    stream.write(msq1, 4);
+    huffman_ostream huffman(stream);
+    huffman << anim.get_base_frame();
+    huffman.flush();
+
+    // Write second MSQ block (The anomation frames)
+    size = 6;
+    for (vector<end_anim_update>::const_iterator update = anim.updates.begin(),
+        end = anim.updates.end(); update != end; ++update)
+    {
+        size += 4 + update->get_blocks().size() * 6;
+    }
+    stream.write((char *) &size, 4);
+    char msq2[4] = { 0x08, 0x67, 0x01, 0x00 };
+    stream.write(msq2, 4);
+    uint16_t data_size = size - 4;
+    huffman.write((char *) &data_size, 2);
+    for (vector<end_anim_update>::const_iterator update = anim.updates.begin(),
+        end = anim.updates.end(); update != end; ++update)
+    {
+        huffman << *update;
+    }
+    char end[4] = { 0xff, 0xff, 0x00, 0x00 };
+    huffman.write(end, 4);
+    huffman.flush();
     return stream;
 }
 
