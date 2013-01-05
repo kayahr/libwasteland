@@ -40,6 +40,20 @@ public:
      */
     end_anim_block();
 
+
+    /**
+     * Constructs a new animation block from the referenced 8 pixels.
+     *
+     * @param frame
+     *            The frame from which to read the 8 pixels.
+     * @param x
+     *            The X offset in the frame.
+     * @param y
+     *            The Y offset in the frame.
+     */
+    end_anim_block(const end_anim_frame &frame, const image::coord x,
+        const image::coord y);
+
     /**
      * Constructs a new animation frame update sequence.
      *
@@ -63,6 +77,24 @@ public:
      * @return The offset address.
      */
     virtual uint16_t get_offset() const;
+
+    /**
+     * Sets raw offset address.
+     *
+     * @param offset
+     *            The offset address to set.
+     */
+    virtual void set_offset(const uint16_t offset);
+
+    /**
+     * Sets raw offset by calculating it for the specified coordinates.
+     *
+     * @param x
+     *            The X offset.
+     * @param y
+     *            The y offset.
+     */
+    virtual void set_offset(const image::coord x, const image::coord y);
 
     /**
      * Returns the horizontal offset where to apply the update sequence.
@@ -94,6 +126,16 @@ public:
      * @return The update color
      */
     virtual image::color get_color(const uint8_t index) const;
+
+    /**
+     * Sets the update color of the pixel with the specified index.
+     *
+     * @param index
+     *            The pixel index (0-7)
+     * @param color
+     *            The color to set.
+     */
+    virtual void set_color(const uint8_t index, const image::color color);
 
     /**
      * Compares this animation block with the given one.

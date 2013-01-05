@@ -12,14 +12,12 @@ using std::ostream;
 namespace wasteland
 {
 
-end_anim_update::end_anim_update()
+end_anim_update::end_anim_update() : delay(0)
 {
-    this->delay = 0;
 }
 
-end_anim_update::end_anim_update(const uint16_t delay)
+end_anim_update::end_anim_update(const uint16_t delay) : delay(delay)
 {
-    this->delay = delay;
 }
 
 end_anim_update::~end_anim_update()
@@ -37,14 +35,34 @@ void end_anim_update::set_delay(const uint16_t delay)
     this->delay = delay;
 }
 
-vector<end_anim_block> end_anim_update::get_blocks()
+vector<end_anim_block>& end_anim_update::get_blocks()
 {
     return blocks;
 }
 
-const vector<end_anim_block> end_anim_update::get_blocks() const
+const vector<end_anim_block>& end_anim_update::get_blocks() const
 {
     return blocks;
+}
+
+void end_anim_update::set_blocks(const end_anim_frame& old_frame,
+    const end_anim_frame& new_frame)
+{
+    blocks.clear();
+    for (int y = 0; y < 128; y += 1)
+    {
+        for (int x = 0; x < 288; x += 8)
+        {
+            for (int i = 0; i < 8; i += 1)
+            {
+                if (old_frame.get_color(x + i, y) != new_frame.get_color(x + i, y))
+                {
+                    blocks.push_back(end_anim_block(new_frame, x, y));
+                    break;
+                }
+            }
+        }
+    }
 }
 
 bool end_anim_update::operator==(const end_anim_update& other) const

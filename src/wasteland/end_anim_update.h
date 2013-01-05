@@ -37,12 +37,12 @@ class end_anim_update
 
 public:
     /**
-     * Constructs a new animation frame.
+     * Constructs a new animation frame update.
      */
     end_anim_update();
 
     /**
-     * Constructs a new animation frame with the given delay.
+     * Constructs a new animation frame update with the given delay.
      *
      * @param delay
      *            The frame delay.
@@ -50,7 +50,7 @@ public:
     end_anim_update(const uint16_t delay);
 
     /**
-     * Destructs this animation frame.
+     * Destructs this animation frame update.
      */
     virtual ~end_anim_update();
 
@@ -95,9 +95,31 @@ public:
      */
     virtual void apply(end_anim_frame& frame) const;
 
-    virtual std::vector<end_anim_block> get_blocks();
+    /**
+     * Returns the update blocks.
+     *
+     * @return The update blocks.
+     */
+    virtual std::vector<end_anim_block>& get_blocks();
 
-    virtual const std::vector<end_anim_block> get_blocks() const;
+    /**
+     * Returns the update blocks.
+     *
+     * @return The update blocks.
+     */
+    virtual const std::vector<end_anim_block>& get_blocks() const;
+
+    /**
+     * Sets the update blocks by calculating the difference between the two
+     * specified frames.
+     *
+     * @param old
+     *            The old frame.
+     * @param new
+     *            The new frame.
+     */
+    void set_blocks(const end_anim_frame& old_frame,
+        const end_anim_frame& new_frame);
 
 private:
     uint16_t delay;
