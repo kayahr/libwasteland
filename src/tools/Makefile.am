@@ -14,6 +14,7 @@ bin_PROGRAMS = \
     unpackcursors \
     packcursors \
     unpacktiles \
+    packcpa \
     unpackcpa
     
 decodepic_LDADD = ../wasteland/libwasteland.la
@@ -60,6 +61,11 @@ unpacktiles_LDADD = ../wasteland/libwasteland.la
 unpacktiles_CPPFLAGS = -I..
 unpacktiles_LDFLAGS = -static
 unpacktiles_SOURCES = $(common_SOURCES) unpacktiles.cc
+
+packcpa_LDADD = ../wasteland/libwasteland.la
+packcpa_CPPFLAGS = -I..
+packcpa_LDFLAGS = -static
+packcpa_SOURCES = $(common_SOURCES) packcpa.cc
 
 unpackcpa_LDADD = ../wasteland/libwasteland.la
 unpackcpa_CPPFLAGS = -I..

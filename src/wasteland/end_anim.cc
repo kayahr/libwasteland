@@ -61,12 +61,17 @@ vector<end_anim_update>& end_anim::get_updates()
     return updates;
 }
 
-const end_anim_frame end_anim::get_base_frame() const
+void end_anim::add_update(const end_anim_update& update)
+{
+    updates.push_back(update);
+}
+
+const end_anim_frame& end_anim::get_base_frame() const
 {
     return base_frame;
 }
 
-end_anim_frame end_anim::get_base_frame()
+end_anim_frame& end_anim::get_base_frame()
 {
     return base_frame;
 }

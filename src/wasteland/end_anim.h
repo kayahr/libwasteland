@@ -101,14 +101,14 @@ public:
      *
      * @return The base frame.
      */
-    virtual const end_anim_frame get_base_frame() const;
+    virtual const end_anim_frame& get_base_frame() const;
 
     /**
      * Returns the base frame.
      *
      * @return The base frame.
      */
-    virtual end_anim_frame get_base_frame();
+    virtual end_anim_frame& get_base_frame();
 
     /**
      * Returns the list of animation frame updates.
@@ -123,6 +123,14 @@ public:
      * @return The animation frame updates.
      */
     virtual std::vector<end_anim_update> &get_updates();
+
+    /**
+     * Adds the specified update to the animation.
+     *
+     * @param update
+     *            The update to add.
+     */
+    virtual void add_update(const end_anim_update& update);
 
 private:
     end_anim_frame base_frame;
