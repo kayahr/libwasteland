@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <wasteland/exceptions.h>
-#include <wasteland/end_anim.h>
+#include <wasteland/cpa_anim.h>
 #include "gdutils.h"
 #include "fileutils.h"
 #include "packcpa.h"
@@ -29,7 +29,7 @@ void packcpa::exec(int argc, char *argv[])
     char *source = argv[0];
     char *dest = argv[1];
 
-    end_anim anim;
+    cpa_anim anim;
 
     ostringstream filename;
     filename << source << DIR_SEPARATOR << 0 << ".png";
@@ -41,14 +41,14 @@ void packcpa::exec(int argc, char *argv[])
 
     int index = 1;
     int delay;
-    end_anim_frame prev_frame = anim.get_base_frame();
+    cpa_anim_frame prev_frame = anim.get_base_frame();
     while (delay_file >> delay)
     {
         ostringstream filename;
         filename << source << DIR_SEPARATOR << index << ".png";
-        end_anim_frame next_frame;
+        cpa_anim_frame next_frame;
         png_to_image(filename.str().c_str(), next_frame);
-        end_anim_update update(delay);
+        cpa_anim_update update(delay);
         update.set_blocks(prev_frame, next_frame);
         anim.add_update(update);
         prev_frame = next_frame;

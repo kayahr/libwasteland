@@ -8,8 +8,8 @@
 
 #include <vector>
 #include <iostream>
-#include "end_anim_frame.h"
-#include "end_anim_update.h"
+#include "cpa_anim_frame.h"
+#include "cpa_anim_update.h"
 
 namespace wasteland
 {
@@ -34,27 +34,27 @@ namespace wasteland
  * {@link next_frame} method to advance to the next frame after some delay
  * (See @link get_next_delay}).
  */
-class end_anim
+class cpa_anim
 {
     /**
      * Reads the end animation from the specified input stream.
      *
      * @return The input stream.
      */
-    friend std::istream& operator>>(std::istream&, end_anim&);
+    friend std::istream& operator>>(std::istream&, cpa_anim&);
 
     /**
      * Writes the end animation to the specified output stream.
      *
      * @return The output streams.
      */
-    friend std::ostream& operator<<(std::ostream&, const end_anim&);
+    friend std::ostream& operator<<(std::ostream&, const cpa_anim&);
 
 public:
     /**
      * Constructs a new empty CPA animation. All colors are set to black.
      */
-    end_anim();
+    cpa_anim();
 
     /**
      * Constructs a new end animation initialized with the data from
@@ -63,12 +63,12 @@ public:
      * @param other
      *            The end animation to copy the data from.
      */
-    end_anim(const end_anim& other);
+    cpa_anim(const cpa_anim& other);
 
     /**
      * Destructs this end animation.
      */
-    virtual ~end_anim();
+    virtual ~cpa_anim();
 
     /**
      * Copies the data of the given end animation to this end animation.
@@ -76,7 +76,7 @@ public:
      * @param other
      *            The end animation to copy the data from.
      */
-    virtual end_anim& operator=(const end_anim& other);
+    virtual cpa_anim& operator=(const cpa_anim& other);
 
     /**
      * Compares this end animation with the given end animation.
@@ -85,7 +85,7 @@ public:
      *            The other end animation to compare this one with.
      * @return True if end animations are equal, false if not.
      */
-    virtual bool operator==(const end_anim& other) const;
+    virtual bool operator==(const cpa_anim& other) const;
 
     /**
      * Compares this end animation with the given end animation.
@@ -94,35 +94,35 @@ public:
      *            The other end animation to compare this one with.
      * @return  False if end animations are equal, true if not.
      */
-    virtual bool operator!=(const end_anim& other) const;
+    virtual bool operator!=(const cpa_anim& other) const;
 
     /**
      * Returns the base frame.
      *
      * @return The base frame.
      */
-    virtual const end_anim_frame& get_base_frame() const;
+    virtual const cpa_anim_frame& get_base_frame() const;
 
     /**
      * Returns the base frame.
      *
      * @return The base frame.
      */
-    virtual end_anim_frame& get_base_frame();
+    virtual cpa_anim_frame& get_base_frame();
 
     /**
      * Returns the list of animation frame updates.
      *
      * @return The animation frame updates.
      */
-    virtual const std::vector<end_anim_update> &get_updates() const;
+    virtual const std::vector<cpa_anim_update> &get_updates() const;
 
     /**
      * Returns the list of animation frame updates.
      *
      * @return The animation frame updates.
      */
-    virtual std::vector<end_anim_update> &get_updates();
+    virtual std::vector<cpa_anim_update> &get_updates();
 
     /**
      * Adds the specified update to the animation.
@@ -130,11 +130,11 @@ public:
      * @param update
      *            The update to add.
      */
-    virtual void add_update(const end_anim_update& update);
+    virtual void add_update(const cpa_anim_update& update);
 
 private:
-    end_anim_frame base_frame;
-    std::vector<end_anim_update> updates;
+    cpa_anim_frame base_frame;
+    std::vector<cpa_anim_update> updates;
 };
 
 }

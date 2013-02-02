@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <wasteland/exceptions.h>
-#include <wasteland/end_anim.h>
+#include <wasteland/cpa_anim.h>
 #include "gdutils.h"
 #include "fileutils.h"
 #include "unpackcpa.h"
@@ -33,11 +33,11 @@ void unpackcpa::exec(int argc, char *argv[])
 
     ifstream file(source);
     if (!source) throw io_error(string("Unable to open ") + source);
-    end_anim anim;
+    cpa_anim anim;
     file >> anim;
     if (!file) throw io_error("Unable to read end animation");
 
-    end_anim_frame frame;
+    cpa_anim_frame frame;
     ostringstream filename;
     filename << dest << DIR_SEPARATOR << 0 << ".png";
     frame = anim.get_base_frame();
@@ -48,7 +48,7 @@ void unpackcpa::exec(int argc, char *argv[])
     fstream delay_file(delay_filename.str().c_str(), ios_base::out);
 
     int index = 1;
-    for(vector<end_anim_update>::iterator update = anim.get_updates().begin(),
+    for(vector<cpa_anim_update>::iterator update = anim.get_updates().begin(),
         end = anim.get_updates().end(); update != end; ++update)
     {
         update->apply(frame);

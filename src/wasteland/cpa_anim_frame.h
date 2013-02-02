@@ -15,14 +15,14 @@ namespace wasteland
 /**
  * Container for a complete frame of the end animation.
  */
-class end_anim_frame: public vxor_image
+class cpa_anim_frame: public vxor_image
 {
 public:
     /**
      * Constructs a new empty end animation frame. All colors are set to
      * black.
      */
-    end_anim_frame();
+    cpa_anim_frame();
 
     /**
      * Constructs a new end animation frame with the image data from the
@@ -31,12 +31,12 @@ public:
      * @param other
      *            The end animation frame to copy the image data from.
      */
-    end_anim_frame(const end_anim_frame& other);
+    cpa_anim_frame(const cpa_anim_frame& other);
 
     /**
      * Destructs this end animation frame.
      */
-    virtual ~end_anim_frame();
+    virtual ~cpa_anim_frame();
 
     /**
      * Copies the image data of the given end animation frame into this one..
@@ -44,7 +44,7 @@ public:
      * @param other
      *            The end animation frame to copy the image data from.
      */
-    virtual end_anim_frame& operator=(const end_anim_frame& other);
+    virtual cpa_anim_frame& operator=(const cpa_anim_frame& other);
 };
 
 }

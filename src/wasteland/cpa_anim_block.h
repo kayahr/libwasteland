@@ -10,7 +10,7 @@
 #include <ostream>
 #include <stdint.h>
 #include "image.h"
-#include "end_anim_frame.h"
+#include "cpa_anim_frame.h"
 
 namespace wasteland
 {
@@ -18,27 +18,27 @@ namespace wasteland
 /**
  * Container for a single end animation frame update block.
  */
-class end_anim_block
+class cpa_anim_block
 {
     /**
      * Reads the animation block from the specified input stream.
      *
      * @return The input stream.
      */
-    friend std::istream& operator>>(std::istream&, end_anim_block&);
+    friend std::istream& operator>>(std::istream&, cpa_anim_block&);
 
     /**
      * Writes the animation block to the specified output stream.
      *
      * @return The output streams.
      */
-    friend std::ostream& operator<<(std::ostream&, const end_anim_block&);
+    friend std::ostream& operator<<(std::ostream&, const cpa_anim_block&);
 
 public:
     /**
      * Constructs a new empty animation block.
      */
-    end_anim_block();
+    cpa_anim_block();
 
 
     /**
@@ -51,7 +51,7 @@ public:
      * @param y
      *            The Y offset in the frame.
      */
-    end_anim_block(const end_anim_frame &frame, const image::coord x,
+    cpa_anim_block(const cpa_anim_frame &frame, const image::coord x,
         const image::coord y);
 
     /**
@@ -63,12 +63,12 @@ public:
      *            The update data. Each 4 bit of this 32 bit value
      *            represents one pixel.
      */
-    end_anim_block(const uint16_t offset, const uint32_t data);
+    cpa_anim_block(const uint16_t offset, const uint32_t data);
 
     /**
      * Destructs this update sequence.
      */
-    virtual ~end_anim_block();
+    virtual ~cpa_anim_block();
 
     /**
      * Returns the raw offset address where to apply the update sequence.
@@ -144,7 +144,7 @@ public:
      *            The other animation block to compare this one with.
      * @return True if animation blocks are equal, false if not.
      */
-    virtual bool operator==(const end_anim_block& other) const;
+    virtual bool operator==(const cpa_anim_block& other) const;
 
     /**
      * Compares this animation block with the given one.
@@ -153,7 +153,7 @@ public:
      *            The other animation block to compare this one with.
      * @return False if animation blocks are equal, false if not.
      */
-    virtual bool operator!=(const end_anim_block& other) const;
+    virtual bool operator!=(const cpa_anim_block& other) const;
 
     /**
      * Applies this animation block to the specified frame.
@@ -161,7 +161,7 @@ public:
      * @param frame
      *            The frame to apply this animation block to.
      */
-    virtual void apply(end_anim_frame& frame) const;
+    virtual void apply(cpa_anim_frame& frame) const;
 
 private:
     uint16_t offset;

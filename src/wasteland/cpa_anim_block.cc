@@ -4,7 +4,7 @@
  */
 
 #include <cassert>
-#include "end_anim_block.h"
+#include "cpa_anim_block.h"
 
 using std::istream;
 using std::ostream;
@@ -12,61 +12,61 @@ using std::ostream;
 namespace wasteland
 {
 
-end_anim_block::end_anim_block() :
+cpa_anim_block::cpa_anim_block() :
     offset(0),
     data(0)
 {
 }
 
-end_anim_block::end_anim_block(const uint16_t offset, const uint32_t data) :
+cpa_anim_block::cpa_anim_block(const uint16_t offset, const uint32_t data) :
     offset(offset),
     data(data)
 {
 }
 
-end_anim_block::end_anim_block(const end_anim_frame &frame,
+cpa_anim_block::cpa_anim_block(const cpa_anim_frame &frame,
     const image::coord x, const image::coord y)
 {
     set_offset(x, y);
     for (int i = 0; i < 8; i++) set_color(i, frame.get_color(x + i, y));
 }
 
-end_anim_block::~end_anim_block()
+cpa_anim_block::~cpa_anim_block()
 {
     // Nothing to do.
 }
 
-uint16_t end_anim_block::get_offset() const
+uint16_t cpa_anim_block::get_offset() const
 {
     return offset;
 }
 
-void end_anim_block::set_offset(const uint16_t offset)
+void cpa_anim_block::set_offset(const uint16_t offset)
 {
     this->offset = offset;
 }
 
-void end_anim_block::set_offset(const image::coord x, const image::coord y)
+void cpa_anim_block::set_offset(const image::coord x, const image::coord y)
 {
     offset = (y * 320 + x) / 8;
 }
 
-image::coord end_anim_block::get_offset_x() const
+image::coord cpa_anim_block::get_offset_x() const
 {
     return offset * 8 % 320;
 }
 
-image::coord end_anim_block::get_offset_y() const
+image::coord cpa_anim_block::get_offset_y() const
 {
     return offset * 8 / 320;
 }
 
-uint32_t end_anim_block::get_data() const
+uint32_t cpa_anim_block::get_data() const
 {
     return data;
 }
 
-image::color end_anim_block::get_color(const uint8_t index) const
+image::color cpa_anim_block::get_color(const uint8_t index) const
 {
     assert(index < 8);
 
@@ -77,7 +77,7 @@ image::color end_anim_block::get_color(const uint8_t index) const
         return (value & 0xf0) >> 4;
 }
 
-void end_anim_block::set_color(const uint8_t index, const image::color color)
+void cpa_anim_block::set_color(const uint8_t index, const image::color color)
 {
     assert(index < 8);
 
@@ -92,17 +92,17 @@ void end_anim_block::set_color(const uint8_t index, const image::color color)
     data |= value;
 }
 
-bool end_anim_block::operator==(const end_anim_block& other) const
+bool cpa_anim_block::operator==(const cpa_anim_block& other) const
 {
     return data == other.data && offset == other.offset;
 }
 
-bool end_anim_block::operator!=(const end_anim_block& other) const
+bool cpa_anim_block::operator!=(const cpa_anim_block& other) const
 {
     return !(*this == other);
 }
 
-void end_anim_block::apply(end_anim_frame& frame) const
+void cpa_anim_block::apply(cpa_anim_frame& frame) const
 {
     image::coord x = get_offset_x();
     image::coord y = get_offset_y();
@@ -112,14 +112,14 @@ void end_anim_block::apply(end_anim_frame& frame) const
     }
 }
 
-istream& operator>>(istream& stream, end_anim_block& block)
+istream& operator>>(istream& stream, cpa_anim_block& block)
 {
     stream.read((char *) &block.offset, 2);
     if (block.offset != 0xffff) stream.read((char *) &block.data, 4);
     return stream;
 }
 
-ostream& operator<<(ostream& stream, const end_anim_block& block)
+ostream& operator<<(ostream& stream, const cpa_anim_block& block)
 {
     stream.write((char *) &block.offset, 2);
     if (block.offset != 0xffff) stream.write((char *) &block.data, 4);

@@ -8,7 +8,7 @@
 #include "huffman_istream.h"
 #include "huffman_ostream.h"
 #include "exceptions.h"
-#include "end_anim.h"
+#include "cpa_anim.h"
 
 using std::vector;
 using std::string;
@@ -19,64 +19,64 @@ using std::ostringstream;
 namespace wasteland
 {
 
-end_anim::end_anim()
+cpa_anim::cpa_anim()
 {
 }
 
-end_anim::end_anim(const end_anim &other)
+cpa_anim::cpa_anim(const cpa_anim &other)
 {
     base_frame = other.get_base_frame();
     updates = other.get_updates();
 }
 
-end_anim::~end_anim()
+cpa_anim::~cpa_anim()
 {
 }
 
-end_anim& end_anim::operator=(const end_anim& other)
+cpa_anim& cpa_anim::operator=(const cpa_anim& other)
 {
     base_frame = other.get_base_frame();
     updates = other.get_updates();
     return *this;
 }
 
-bool end_anim::operator==(const end_anim& other) const
+bool cpa_anim::operator==(const cpa_anim& other) const
 {
     return base_frame == other.get_base_frame() &&
         updates == other.get_updates();
 }
 
-bool end_anim::operator!=(const end_anim& other) const
+bool cpa_anim::operator!=(const cpa_anim& other) const
 {
     return !(*this == other);
 }
 
-const std::vector<end_anim_update>& end_anim::get_updates() const
+const std::vector<cpa_anim_update>& cpa_anim::get_updates() const
 {
     return updates;
 }
 
-vector<end_anim_update>& end_anim::get_updates()
+vector<cpa_anim_update>& cpa_anim::get_updates()
 {
     return updates;
 }
 
-void end_anim::add_update(const end_anim_update& update)
+void cpa_anim::add_update(const cpa_anim_update& update)
 {
     updates.push_back(update);
 }
 
-const end_anim_frame& end_anim::get_base_frame() const
+const cpa_anim_frame& cpa_anim::get_base_frame() const
 {
     return base_frame;
 }
 
-end_anim_frame& end_anim::get_base_frame()
+cpa_anim_frame& cpa_anim::get_base_frame()
 {
     return base_frame;
 }
 
-istream& operator>>(istream& stream, end_anim& pic)
+istream& operator>>(istream& stream, cpa_anim& pic)
 {
     // Read the size of the base frame block
     uint32_t size;
@@ -114,7 +114,7 @@ istream& operator>>(istream& stream, end_anim& pic)
     // Read the frames
     do
     {
-        end_anim_update update;
+        cpa_anim_update update;
         huffman >> update;
         if (update.get_delay() != 0xffff)
             pic.updates.push_back(update);
@@ -126,7 +126,7 @@ istream& operator>>(istream& stream, end_anim& pic)
     return stream;
 }
 
-ostream& operator<<(ostream& stream, const end_anim& anim)
+ostream& operator<<(ostream& stream, const cpa_anim& anim)
 {
     // Write first MSQ block (The base frame)
     uint32_t size = 144 * 128;
@@ -139,7 +139,7 @@ ostream& operator<<(ostream& stream, const end_anim& anim)
 
     // Write second MSQ block (The anomation frames)
     size = 6;
-    for (vector<end_anim_update>::const_iterator update = anim.updates.begin(),
+    for (vector<cpa_anim_update>::const_iterator update = anim.updates.begin(),
         end = anim.updates.end(); update != end; ++update)
     {
         size += 4 + update->get_blocks().size() * 6;
@@ -149,7 +149,7 @@ ostream& operator<<(ostream& stream, const end_anim& anim)
     stream.write(msq2, 4);
     uint16_t data_size = size - 4;
     huffman.write((char *) &data_size, 2);
-    for (vector<end_anim_update>::const_iterator update = anim.updates.begin(),
+    for (vector<cpa_anim_update>::const_iterator update = anim.updates.begin(),
         end = anim.updates.end(); update != end; ++update)
     {
         huffman << *update;

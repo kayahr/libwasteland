@@ -10,8 +10,8 @@
 #include <stdint.h>
 #include <istream>
 #include <ostream>
-#include "end_anim_block.h"
-#include "end_anim_frame.h"
+#include "cpa_anim_block.h"
+#include "cpa_anim_frame.h"
 
 namespace wasteland
 {
@@ -19,27 +19,27 @@ namespace wasteland
 /**
  * Container for a single end animation frame.
  */
-class end_anim_update
+class cpa_anim_update
 {
     /**
      * Reads the animation block from the specified input stream.
      *
      * @return The input stream.
      */
-    friend std::istream& operator>>(std::istream&, end_anim_update&);
+    friend std::istream& operator>>(std::istream&, cpa_anim_update&);
 
     /**
      * Writes the animation block to the specified output stream.
      *
      * @return The output streams.
      */
-    friend std::ostream& operator<<(std::ostream&, const end_anim_update&);
+    friend std::ostream& operator<<(std::ostream&, const cpa_anim_update&);
 
 public:
     /**
      * Constructs a new animation frame update.
      */
-    end_anim_update();
+    cpa_anim_update();
 
     /**
      * Constructs a new animation frame update with the given delay.
@@ -47,12 +47,12 @@ public:
      * @param delay
      *            The frame delay.
      */
-    end_anim_update(const uint16_t delay);
+    cpa_anim_update(const uint16_t delay);
 
     /**
      * Destructs this animation frame update.
      */
-    virtual ~end_anim_update();
+    virtual ~cpa_anim_update();
 
     /**
      * Returns the frame delay.
@@ -76,7 +76,7 @@ public:
      *            The other animation update to compare this one with.
      * @return True if animation updates are equal, false if not.
      */
-    virtual bool operator==(const end_anim_update& other) const;
+    virtual bool operator==(const cpa_anim_update& other) const;
 
     /**
      * Compares this animation update with the given one.
@@ -85,7 +85,7 @@ public:
      *            The other animation update to compare this one with.
      * @return False if animation updates are equal, false if not.
      */
-    virtual bool operator!=(const end_anim_update& other) const;
+    virtual bool operator!=(const cpa_anim_update& other) const;
 
     /**
      * Applies this animation update to the specified frame.
@@ -93,21 +93,21 @@ public:
      * @param frame
      *            The frame to apply this animation update to.
      */
-    virtual void apply(end_anim_frame& frame) const;
+    virtual void apply(cpa_anim_frame& frame) const;
 
     /**
      * Returns the update blocks.
      *
      * @return The update blocks.
      */
-    virtual std::vector<end_anim_block>& get_blocks();
+    virtual std::vector<cpa_anim_block>& get_blocks();
 
     /**
      * Returns the update blocks.
      *
      * @return The update blocks.
      */
-    virtual const std::vector<end_anim_block>& get_blocks() const;
+    virtual const std::vector<cpa_anim_block>& get_blocks() const;
 
     /**
      * Sets the update blocks by calculating the difference between the two
@@ -118,12 +118,12 @@ public:
      * @param new
      *            The new frame.
      */
-    void set_blocks(const end_anim_frame& old_frame,
-        const end_anim_frame& new_frame);
+    void set_blocks(const cpa_anim_frame& old_frame,
+        const cpa_anim_frame& new_frame);
 
 private:
     uint16_t delay;
-    std::vector<end_anim_block> blocks;
+    std::vector<cpa_anim_block> blocks;
 };
 
 }
