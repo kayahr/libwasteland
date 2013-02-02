@@ -25,7 +25,11 @@ libwasteland_la_SOURCES = \
   cpa_anim.cc \
   cpa_anim_block.cc \
   cpa_anim_update.cc \
-  cpa_anim_frame.cc
+  cpa_anim_frame.cc \
+  pic_anim.cc \
+  pic_anim_block.cc \
+  pic_anim_update.cc \
+  pic_anim_frame.cc
 libwastelandincludedir = $(includedir)
 libwastelandinclude_HEADERS = \
   bit_reader.h \
@@ -52,5 +56,9 @@ libwastelandinclude_HEADERS = \
   cpa_anim.h \
   cpa_anim_block.h \
   cpa_anim_update.h \
-  cpa_anim_frame.h
+  cpa_anim_frame.h \
+  pic_anim.h \
+  pic_anim_block.h \
+  pic_anim_update.h \
+  pic_anim_frame.h
 AM_CFLAGS = -Wall -Werror -O2
