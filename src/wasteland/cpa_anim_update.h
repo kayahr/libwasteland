@@ -3,8 +3,8 @@
  * See COPYING file for copying conditions
  */
 
-#ifndef LIBWASTELAND_END_ANIM_UPDATE_H
-#define LIBWASTELAND_END_ANIM_UPDATE_H
+#ifndef LIBWASTELAND_CPA_ANIM_UPDATE_H
+#define LIBWASTELAND_CPA_ANIM_UPDATE_H
 
 #include <vector>
 #include <stdint.h>
